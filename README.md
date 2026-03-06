@@ -19,10 +19,9 @@ Platform for companies to hire verified student developers for paid projects. Ne
    | `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL |
    | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Supabase anon/public key |
    | `SUPABASE_SERVICE_ROLE_KEY` | Yes | For escrow/ledger/payouts; keep secret |
-   | `PAYPAL_CLIENT_ID` | Yes | PayPal REST API client ID |
-   | `PAYPAL_SECRET` | Yes | PayPal REST API secret |
-   | `PAYPAL_API_BASE` | No | Default `https://api-m.sandbox.paypal.com` (use live URL for production) |
-   | `PAYPAL_WEBHOOK_ID` | Yes | Webhook ID from PayPal developer dashboard |
+   | `PAYPAL_CLIENT_ID` | Yes | PayPal **Sandbox** app client ID |
+   | `PAYPAL_SECRET` | Yes | PayPal **Sandbox** app secret |
+   | `PAYPAL_WEBHOOK_ID` | Yes | Webhook ID from PayPal sandbox app webhook |
    | `NEXT_PUBLIC_APP_URL` | No | e.g. `https://your-app.vercel.app` (PayPal return URL) |
 
    Add them for **Production** (and Preview if you use preview deploys).
@@ -30,8 +29,8 @@ Platform for companies to hire verified student developers for paid projects. Ne
 4. **Deploy**  
    Click **Deploy**. The first deployment will run `npm run build`.
 
-5. **PayPal webhook**  
-   After the first deploy, in [PayPal Developer](https://developer.paypal.com) → Your app → Webhooks, add:
+5. **PayPal Sandbox webhook**  
+   After the first deploy, in [PayPal Developer](https://developer.paypal.com) → **Sandbox** app → Webhooks, add:
    - **URL:** `https://your-project.vercel.app/api/payments/webhook`
    - **Events:** `PAYMENT.CAPTURE.COMPLETED`, `PAYMENT.CAPTURE.DENIED`, `PAYMENT.CAPTURE.REFUNDED`
    - Copy the **Webhook ID** and set it as `PAYPAL_WEBHOOK_ID` in Vercel.

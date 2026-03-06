@@ -1,8 +1,9 @@
 /**
  * PayPal webhook signature verification and event parsing.
+ * Sandbox only.
  */
 
-const DEFAULT_BASE = "https://api-m.sandbox.paypal.com";
+const PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com";
 
 export async function verifyWebhookSignature(
   rawBody: string,
@@ -15,7 +16,6 @@ export async function verifyWebhookSignature(
   }
 ): Promise<boolean> {
   const webhookId = process.env.PAYPAL_WEBHOOK_ID;
-  const base = process.env.PAYPAL_API_BASE ?? DEFAULT_BASE;
   if (!webhookId) return false;
   const authAlgo = headers["paypal-auth-algo"];
   const certUrl = headers["paypal-cert-url"];
@@ -26,7 +26,7 @@ export async function verifyWebhookSignature(
     return false;
   }
   const token = await import("./client").then((m) => m.getAccessToken());
-  const res = await fetch(`${base}/v1/notifications/verify-webhook-signature`, {
+  const res = await fetch(`${PAYPAL_API_BASE}/v1/notifications/verify-webhook-signature`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

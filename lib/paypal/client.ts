@@ -1,18 +1,17 @@
 /**
  * PayPal REST API client: Orders API (v2) and Payouts API (v1).
- * Env: PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_API_BASE (default sandbox).
+ * Sandbox only. Env: PAYPAL_CLIENT_ID, PAYPAL_SECRET (use sandbox app credentials).
  */
 
-const DEFAULT_BASE = "https://api-m.sandbox.paypal.com";
+const PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com";
 
 function getConfig() {
-  const clientId = process.env.PAYPAL_CLIENT_ID;
-  const secret = process.env.PAYPAL_SECRET;
-  const base = process.env.PAYPAL_API_BASE ?? DEFAULT_BASE;
+  const clientId = process.env.PAYPAL_CLIENT_ID?.trim();
+  const secret = process.env.PAYPAL_SECRET?.trim();
   if (!clientId || !secret) {
-    throw new Error("Missing PayPal env: PAYPAL_CLIENT_ID and PAYPAL_SECRET are required.");
+    throw new Error("Missing PayPal env: PAYPAL_CLIENT_ID and PAYPAL_SECRET are required (sandbox credentials).");
   }
-  return { clientId, secret, base };
+  return { clientId, secret, base: PAYPAL_API_BASE };
 }
 
 let cachedToken: { access_token: string; expires_at: number } | null = null;
