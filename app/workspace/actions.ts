@@ -69,18 +69,16 @@ export async function createMilestoneAction(
   const order_index = parseInt(formData.get("order_index") as string, 10) || 0;
   const title = (formData.get("title") as string)?.trim();
   const description = (formData.get("description") as string)?.trim() || null;
-  const amount = parseInt(formData.get("amount") as string, 10);
   const due_date = (formData.get("due_date") as string)?.trim() || null;
 
   if (!workspace_id || !title) return { error: "Title is required" };
-  if (isNaN(amount) || amount <= 0) return { error: "Amount must be positive" };
 
   const result = await createMilestone({
     workspace_id,
     order_index,
     title,
     description,
-    amount,
+    amount: 0,
     due_date,
     userId: user.id,
   });
@@ -98,21 +96,17 @@ export async function updateMilestoneAction(formData: FormData) {
   const workspace_id = (formData.get("workspace_id") as string)?.trim();
   const title = (formData.get("title") as string)?.trim();
   const description = (formData.get("description") as string)?.trim() || null;
-  const amountStr = formData.get("amount") as string;
-  const amount = amountStr ? parseInt(amountStr, 10) : undefined;
   const due_date = (formData.get("due_date") as string)?.trim() || null;
   const order_indexStr = formData.get("order_index") as string;
   const order_index = order_indexStr ? parseInt(order_indexStr, 10) : undefined;
 
   if (!milestoneId || !workspace_id) return { error: "Missing ids" };
-  if (amount !== undefined && (isNaN(amount) || amount <= 0)) return { error: "Amount must be positive" };
 
   const result = await updateMilestone({
     milestoneId,
     workspace_id,
     title: title || undefined,
     description,
-    amount,
     due_date,
     order_index,
     userId: user.id,

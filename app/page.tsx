@@ -38,8 +38,8 @@ export default function LandingPage() {
             <span className="text-primary">for real paid projects</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Connect with talent that has passed skill tests. Agree on milestones,
-            fund securely, and get work delivered. Every project becomes a
+            Connect with talent that has passed skill tests. Message developers,
+            agree on scope and milestones, and collaborate. Every project becomes a
             portfolio entry.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -94,22 +94,22 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Escrow */}
+      {/* Workspaces & milestones */}
       <section className="border-t border-border bg-muted/30 py-20 md:py-24">
         <div className="mx-auto max-w-6xl px-4">
           <div className="flex flex-col items-center gap-12 md:flex-row-reverse md:items-start">
             <div className="flex-1">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary">
                 <Lock className="h-4 w-4" />
-                Secure payments
+                Milestone tracking
               </div>
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                Funds held by the platform, released per milestone
+                Create workspaces and track progress together
               </h2>
               <p className="mt-4 text-muted-foreground">
-                You fund the project through Lemon Squeezy. We hold the funds
-                and release them when each milestone is completed and approved.
-                Students receive payouts via Wise — safe for both sides.
+                After you agree to work together, create a workspace with clear
+                milestones. Students submit work for approval; companies review
+                and approve. All communication stays in one place.
               </p>
               <Button className="mt-6" variant="outline" asChild>
                 <Link href="/signup" className="gap-2">
@@ -121,10 +121,10 @@ export default function LandingPage() {
             <div className="flex flex-1 justify-center">
               <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
                 <Briefcase className="h-12 w-12 text-primary" />
-                <h3 className="mt-4 font-semibold">Milestone-based escrow</h3>
+                <h3 className="mt-4 font-semibold">Milestone-based collaboration</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Define milestones, fund once, release as each is completed.
-                  Disputes handled by the platform.
+                  Define milestones, track submissions, and approve when complete.
+                  Payment is handled off-platform between you and the developer.
                 </p>
               </div>
             </div>
@@ -139,8 +139,8 @@ export default function LandingPage() {
             Ready to hire or get hired?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-            Join as a company to post projects and hire verified developers, or
-            as a student to pass tests and land paid work.
+            Join as a company to find and message verified developers, or
+            as a student to build your portfolio and connect with companies.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Button size="lg" asChild>

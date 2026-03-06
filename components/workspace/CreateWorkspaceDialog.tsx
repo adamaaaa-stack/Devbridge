@@ -75,13 +75,13 @@ export function CreateWorkspaceDialog({
               <Input name="tech_stack" placeholder="React, TypeScript, Node" className="mt-1" />
             </div>
             <div>
-              <label className="text-sm font-medium">Total budget (e.g. cents or whole units) *</label>
+              <label className="text-sm font-medium">Project scope (reference) *</label>
               <Input
                 name="total_budget"
                 type="number"
                 min={1}
                 required
-                placeholder="10000"
+                placeholder="1"
                 className="mt-1"
               />
             </div>

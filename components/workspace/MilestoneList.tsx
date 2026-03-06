@@ -33,13 +33,10 @@ export function MilestoneList({
   const [actionError, setActionError] = useState<string | null>(null);
 
   const isCompany = workspace.company_id === currentUserId;
-  const allocated = milestones.reduce((s, m) => s + m.amount, 0);
-  const remaining = workspace.total_budget - allocated;
   const canSendForConfirmation =
     isCompany &&
     workspace.status === "draft" &&
-    milestones.length > 0 &&
-    allocated === workspace.total_budget;
+    milestones.length > 0;
 
   async function handleSendForConfirmation() {
     setActionError(null);
@@ -96,26 +93,6 @@ export function MilestoneList({
         )}
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="rounded-md border border-border bg-muted/30 p-3 text-sm">
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Total budget</span>
-            <span className="font-medium">{workspace.total_budget}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Allocated to milestones</span>
-            <span className="font-medium">{allocated}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Remaining</span>
-            <span className="font-medium">{remaining}</span>
-          </div>
-          {milestones.length > 0 && allocated !== workspace.total_budget && (
-            <p className="mt-2 text-amber-600">
-              Milestone total must equal workspace budget to send for confirmation.
-            </p>
-          )}
-        </div>
-
         {actionError && <p className="text-sm text-destructive">{actionError}</p>}
 
         {workspace.status === "awaiting_student_confirmation" && !isCompany && (
@@ -151,10 +128,9 @@ export function MilestoneList({
                   {m.description && (
                     <p className="mt-1 text-sm text-muted-foreground">{m.description}</p>
                   )}
-                  <p className="mt-1 text-sm">
-                    Amount: {m.amount}
-                    {m.due_date && ` · Due ${m.due_date}`}
-                  </p>
+                  {m.due_date && (
+                    <p className="mt-1 text-sm text-muted-foreground">Due {m.due_date}</p>
+                  )}
                 </div>
                 <div className="flex gap-2">
                   {isCompany && workspace.status === "draft" && (
@@ -184,7 +160,7 @@ export function MilestoneList({
                   )}
                   {isCompany && workspace.status === "active" && m.status === "submitted" && (
                     <Button size="sm" onClick={() => handleApprove(m.id)}>
-                      Approve & pay
+                      Approve
                     </Button>
                   )}
                 </div>
@@ -275,17 +251,6 @@ function EditMilestoneInline({
                 defaultValue={milestone.description ?? ""}
                 rows={2}
                 className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium">Amount *</label>
-              <Input
-                name="amount"
-                type="number"
-                min={1}
-                defaultValue={milestone.amount}
-                required
-                className="mt-1"
               />
             </div>
             <div>

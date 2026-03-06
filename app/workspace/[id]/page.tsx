@@ -10,7 +10,6 @@ import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { MilestoneList } from "@/components/workspace/MilestoneList";
 import { WorkspaceChatWindow } from "@/components/workspace/WorkspaceChatWindow";
 import { WorkspaceMessageComposer } from "@/components/workspace/WorkspaceMessageComposer";
-import { FundWorkspaceCard } from "@/components/workspace/FundWorkspaceCard";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function WorkspacePage({
@@ -65,32 +64,6 @@ export default async function WorkspacePage({
               )}
             </CardContent>
           </Card>
-
-          {workspace.status === "funding_required" && workspace.company_id === user.id ? (
-            <FundWorkspaceCard workspace={workspace} milestones={milestones} />
-          ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle>Funding status</CardTitle>
-                <CardDescription>
-                  {workspace.status === "funding_required"
-                    ? "Waiting for company to fund the workspace."
-                    : workspace.status === "active"
-                      ? "Workspace is funded and active."
-                      : "Funding is required after the student accepts the workspace."}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {workspace.status === "active"
-                    ? "Escrow is funded. Work can proceed."
-                    : workspace.status === "funding_required"
-                      ? "As the company, use the fund option above to pay via Lemon Squeezy."
-                      : "Complete and confirm milestones, then the company can fund the workspace."}
-                </p>
-              </CardContent>
-            </Card>
-          )}
 
           <MilestoneList
             workspace={workspace}

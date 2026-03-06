@@ -75,10 +75,6 @@ export function CreateMilestoneDialog({
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Amount *</label>
-              <Input name="amount" type="number" min={1} required placeholder="5000" className="mt-1" />
-            </div>
-            <div>
               <label className="text-sm font-medium">Due date</label>
               <Input name="due_date" type="date" className="mt-1" />
             </div>

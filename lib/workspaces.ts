@@ -1,7 +1,4 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { createServiceRoleClient } from "@/lib/supabase/service";
-import { getOrCreateAccount, createLedgerTransaction } from "@/lib/ledger/client";
-import { sendPayout } from "@/lib/paypal/client";
 import type {
   Workspace,
   WorkspaceMessage,
@@ -232,13 +229,11 @@ export async function sendWorkspaceForConfirmation(
   userId: string
 ): Promise<{ error?: string }> {
   const supabase = await createServerSupabaseClient();
-  const { data: w } = await supabase.from("workspaces").select("company_id, status, total_budget").eq("id", workspaceId).single();
+  const { data: w } = await supabase.from("workspaces").select("company_id, status").eq("id", workspaceId).single();
   if (!w || w.company_id !== userId) return { error: "Unauthorized" };
   if (w.status !== "draft") return { error: "Workspace is not in draft" };
 
-  const { data: milestones } = await supabase.from("milestones").select("amount, id").eq("workspace_id", workspaceId);
-  const total = (milestones ?? []).reduce((s, m) => s + Number(m.amount), 0);
-  if (total !== Number(w.total_budget)) return { error: "Milestone total must equal workspace budget" };
+  const { data: milestones } = await supabase.from("milestones").select("id").eq("workspace_id", workspaceId);
   if ((milestones ?? []).length === 0) return { error: "Add at least one milestone" };
 
   await supabase.from("workspaces").update({ status: "awaiting_student_confirmation" }).eq("id", workspaceId);
@@ -255,7 +250,7 @@ export async function studentAcceptWorkspace(
   if (!w || w.student_id !== userId) return { error: "Unauthorized" };
   if (w.status !== "awaiting_student_confirmation") return { error: "Invalid status" };
 
-  await supabase.from("workspaces").update({ status: "funding_required" }).eq("id", workspaceId);
+  await supabase.from("workspaces").update({ status: "active" }).eq("id", workspaceId);
   await supabase.from("milestones").update({ status: "active" }).eq("workspace_id", workspaceId);
   return {};
 }
@@ -315,8 +310,7 @@ export async function submitMilestone(
 }
 
 /**
- * Company approves a submitted milestone: releases escrow to student wallet and triggers PayPal payout.
- * Requires: workspace funded, milestone status submitted, student has PayPal email, no duplicate payout.
+ * Company approves a submitted milestone (collaboration-only; no payments).
  */
 export async function approveMilestone(
   milestoneId: string,
@@ -329,7 +323,7 @@ export async function approveMilestone(
 
   const { data: milestone } = await supabase
     .from("milestones")
-    .select("id, workspace_id, student_id, amount, status")
+    .select("id, workspace_id, status")
     .eq("id", milestoneId)
     .eq("workspace_id", workspaceId)
     .single();
@@ -338,113 +332,18 @@ export async function approveMilestone(
 
   const { data: workspace } = await supabase
     .from("workspaces")
-    .select("id, company_id, student_id")
+    .select("company_id")
     .eq("id", workspaceId)
     .single();
   if (!workspace || workspace.company_id !== user.id) return { error: "Forbidden" };
 
-  const serviceSupabase = createServiceRoleClient();
-
-  const { data: escrowPayment } = await serviceSupabase
-    .from("escrow_payments")
-    .select("id, status")
-    .eq("workspace_id", workspaceId)
-    .eq("status", "funded")
-    .maybeSingle();
-  if (!escrowPayment) return { error: "Workspace escrow is not funded" };
-
-  const { data: existingPayout } = await serviceSupabase
-    .from("payout_transactions")
-    .select("id")
-    .eq("milestone_id", milestoneId)
-    .maybeSingle();
-  if (existingPayout) return { error: "Payout already sent for this milestone" };
-
-  const currency = "usd";
-  const escrowAccount = await getOrCreateAccount({
-    owner_type: "workspace",
-    owner_id: workspaceId,
-    account_type: "escrow",
-    currency,
-    supabase: serviceSupabase,
-  });
-  const studentWallet = await getOrCreateAccount({
-    owner_type: "profile",
-    owner_id: milestone.student_id,
-    account_type: "wallet",
-    currency,
-    supabase: serviceSupabase,
-  });
-  if (!escrowAccount || !studentWallet) return { error: "Failed to get ledger accounts" };
-
-  const releaseTx = await createLedgerTransaction({
-    type: "milestone_release",
-    amount: milestone.amount,
-    currency,
-    source_account_id: escrowAccount.id,
-    destination_account_id: studentWallet.id,
-    reference_type: "milestone",
-    reference_id: milestoneId,
-    supabase: serviceSupabase,
-  });
-  if (!releaseTx) return { error: "Failed to create ledger release" };
-
-  await supabase
+  const { error } = await supabase
     .from("milestones")
     .update({
       status: "approved",
       approved_at: new Date().toISOString(),
     })
     .eq("id", milestoneId);
-
-  const { data: payoutAccount } = await serviceSupabase
-    .from("payout_accounts")
-    .select("paypal_email")
-    .eq("profile_id", milestone.student_id)
-    .maybeSingle();
-  if (!payoutAccount?.paypal_email) return {}; // no PayPal email: milestone approved, no payout
-
-  const result = await sendPayout(
-    (payoutAccount as { paypal_email: string }).paypal_email,
-    milestone.amount,
-    "USD"
-  );
-  const payoutBatchId = result && "payoutBatchId" in result ? result.payoutBatchId : null;
-  const payoutError = result && "error" in result ? result.error : null;
-
-  await serviceSupabase.from("payout_transactions").insert({
-    profile_id: milestone.student_id,
-    milestone_id: milestoneId,
-    amount: milestone.amount,
-    paypal_payout_batch_id: payoutBatchId ?? null,
-    status: payoutError ? "failed" : "paid",
-    paid_at: payoutError ? null : new Date().toISOString(),
-  });
-
-  if (payoutError) {
-    console.error("[approveMilestone] PayPal payout failed:", payoutError);
-    return {}; // milestone already approved and ledger released
-  }
-
-  const paypalPayoutAccount = await getOrCreateAccount({
-    owner_type: "external",
-    owner_id: null,
-    account_type: "paypal_payout",
-    currency,
-    supabase: serviceSupabase,
-  });
-  if (paypalPayoutAccount) {
-    await createLedgerTransaction({
-      type: "payout",
-      amount: milestone.amount,
-      currency,
-      source_account_id: studentWallet.id,
-      destination_account_id: paypalPayoutAccount.id,
-      reference_type: "milestone",
-      reference_id: milestoneId,
-      supabase: serviceSupabase,
-    });
-  }
-
+  if (error) return { error: error.message };
   return {};
 }

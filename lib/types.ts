@@ -18,6 +18,47 @@ export interface Skill {
   category?: string;
 }
 
+/** Skill test system: level 1-10 per skill, AI-generated tasks */
+export interface SkillLevelDb {
+  id: string;
+  skill_id: string;
+  level: number;
+  difficulty: string | null;
+  created_at: string;
+}
+
+export interface SkillTaskDb {
+  id: string;
+  skill_level_id: string;
+  title: string;
+  prompt: string;
+  description: string | null;
+  requirements: string[];
+  expected_output: string | null;
+  evaluation_rules: string | null;
+  generated_by_ai: boolean;
+  created_at: string;
+}
+
+export interface TestSubmissionDb {
+  id: string;
+  profile_id: string;
+  task_id: string;
+  code_submission: string;
+  score: number | null;
+  passed: boolean;
+  ai_feedback: string | null;
+  created_at: string;
+}
+
+export interface DeveloperSkillLevelDb {
+  id: string;
+  profile_id: string;
+  skill_id: string;
+  current_level: number;
+  updated_at: string;
+}
+
 /** DB: profile_skills row (join with skills for name) */
 export interface ProfileSkill {
   id: string;
@@ -141,15 +182,13 @@ export interface ConversationWithParticipant {
   unreadCount: number;
 }
 
-// Workspace & milestones (DB-aligned)
+// Workspace & milestones (DB-aligned, collaboration-only; no payment/funding)
 export type WorkspaceStatus =
   | "draft"
   | "awaiting_student_confirmation"
-  | "funding_required"
   | "active"
   | "completed"
-  | "cancelled"
-  | "disputed";
+  | "cancelled";
 
 export interface Workspace {
   id: string;
@@ -183,7 +222,6 @@ export type MilestoneStatus =
   | "submitted"
   | "approved"
   | "rejected"
-  | "paid"
   | "cancelled";
 
 export interface Milestone {
@@ -206,47 +244,6 @@ export interface Milestone {
 export interface WorkspaceWithParticipants extends Workspace {
   company: ParticipantSummary;
   student: ParticipantSummary;
-}
-
-// Payments & escrow (DB-aligned)
-export type EscrowPaymentStatus =
-  | "pending"
-  | "funded"
-  | "partially_released"
-  | "released"
-  | "refunded";
-
-export interface EscrowPaymentDb {
-  id: string;
-  workspace_id: string;
-  company_id: string;
-  student_id: string;
-  paypal_order_id: string | null;
-  paypal_capture_id: string | null;
-  amount: number;
-  currency: string;
-  status: EscrowPaymentStatus;
-  created_at: string;
-}
-
-export type LedgerTransactionType =
-  | "external_payment"
-  | "escrow_deposit"
-  | "milestone_release"
-  | "payout"
-  | "refund"
-  | "fee";
-
-export interface LedgerTransactionDb {
-  id: string;
-  type: string;
-  amount: number;
-  currency: string;
-  source_account_id: string | null;
-  destination_account_id: string | null;
-  reference_type: string | null;
-  reference_id: string | null;
-  created_at: string;
 }
 
 // Portfolio (app/workspace-derived; for display)

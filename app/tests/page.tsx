@@ -1,35 +1,36 @@
-import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { redirect } from "next/navigation";
+import { getSkills } from "@/lib/developers";
+import { getDeveloperSkillLevels } from "@/lib/skill-tests";
+import { getCurrentUser } from "@/lib/auth";
+import { TestsPageClient } from "./TestsPageClient";
 
-export default function TestsPage() {
+export default async function TestsPage() {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+
+  const [skills, developerLevelsRows] = await Promise.all([
+    getSkills(),
+    getDeveloperSkillLevels(user.id),
+  ]);
+
+  const developerLevels: Record<string, number> = {};
+  for (const row of developerLevelsRows) {
+    developerLevels[row.skill_id] = row.current_level;
+  }
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Skill tests</h1>
         <p className="text-muted-foreground">
-          Pass tests to verify your skills and get verified levels on your
-          profile.
+          Prove your skills with AI-generated coding challenges. Each skill has
+          levels 1–10. Pass a test to unlock the next level.
         </p>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <Card className="transition-colors hover:bg-muted/50">
-          <Link href="/tests/react-basics">
-            <CardHeader>
-              <CardTitle>React basics</CardTitle>
-              <CardDescription>Placeholder test. Slug: react-basics</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">Not taken</p>
-            </CardContent>
-          </Link>
-        </Card>
-      </div>
+      <TestsPageClient
+        skills={skills}
+        developerLevels={developerLevels}
+      />
     </div>
   );
 }

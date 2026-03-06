@@ -18,7 +18,7 @@ export default function AdminPage() {
       <Card>
         <CardHeader>
           <CardTitle>Admin dashboard</CardTitle>
-          <CardDescription>Placeholder. Users, disputes, and payouts will be managed here.</CardDescription>
+          <CardDescription>Placeholder. Users and platform settings will be managed here.</CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">No admin actions yet.</p>

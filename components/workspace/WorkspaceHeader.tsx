@@ -13,11 +13,9 @@ interface WorkspaceHeaderProps {
 const statusVariant: Record<WorkspaceStatus, "default" | "secondary" | "outline"> = {
   draft: "secondary",
   awaiting_student_confirmation: "outline",
-  funding_required: "secondary",
   active: "default",
   completed: "secondary",
   cancelled: "outline",
-  disputed: "outline",
 };
 
 export function WorkspaceHeader({ workspace }: WorkspaceHeaderProps) {
@@ -51,7 +49,7 @@ export function WorkspaceHeader({ workspace }: WorkspaceHeaderProps) {
             <span className="font-medium">{studentName}</span>
           </div>
           <div>
-            <span className="text-muted-foreground">Total budget: </span>
+            <span className="text-muted-foreground">Scope: </span>
             <span className="font-medium">{workspace.total_budget}</span>
           </div>
           {(workspace.start_date || workspace.end_date) && (

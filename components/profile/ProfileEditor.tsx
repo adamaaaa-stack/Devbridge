@@ -10,19 +10,19 @@ import {
   addPortfolioItem,
   updatePortfolioItem,
   deletePortfolioItem,
-  updatePayoutAccount,
 } from "@/app/profile/actions";
 import type { DbProfile } from "@/lib/auth";
 import type { Skill } from "@/lib/types";
 import type { PortfolioItemDb } from "@/lib/types";
-import { Plus, Pencil, Trash2, ExternalLink, Github } from "lucide-react";
+import Link from "next/link";
+import { Plus, Pencil, Trash2, ExternalLink, Github, Code2 } from "lucide-react";
 
 interface ProfileEditorProps {
   profile: DbProfile;
   skills: Skill[];
   selectedSkillIds: string[];
   portfolioItems: PortfolioItemDb[];
-  payoutAccount: { paypal_email: string } | null;
+  developerLevels?: Record<string, number>;
 }
 
 export function ProfileEditor({
@@ -30,7 +30,7 @@ export function ProfileEditor({
   skills,
   selectedSkillIds,
   portfolioItems,
-  payoutAccount,
+  developerLevels = {},
 }: ProfileEditorProps) {
   const [bio, setBio] = useState(profile.bio ?? "");
   const [bioSaving, setBioSaving] = useState(false);
@@ -44,10 +44,6 @@ export function ProfileEditor({
 
   const [portfolioFormOpen, setPortfolioFormOpen] = useState(false);
   const [editingPortfolioId, setEditingPortfolioId] = useState<string | null>(null);
-
-  const [paypalEmail, setPaypalEmail] = useState(payoutAccount?.paypal_email ?? "");
-  const [paypalSaving, setPaypalSaving] = useState(false);
-  const [paypalError, setPaypalError] = useState<string | null>(null);
 
   const isStudent = profile.role === "student";
 
@@ -110,15 +106,6 @@ export function ProfileEditor({
     if (result && "error" in result && typeof result.error === "string") alert(result.error);
   }
 
-  async function handleSavePaypalEmail(e: React.FormEvent) {
-    e.preventDefault();
-    setPaypalError(null);
-    setPaypalSaving(true);
-    const result = await updatePayoutAccount(paypalEmail);
-    setPaypalSaving(false);
-    if (result && "error" in result && typeof result.error === "string") setPaypalError(result.error);
-  }
-
   return (
     <div className="space-y-6">
       {/* Basic info (all roles) */}
@@ -167,33 +154,6 @@ export function ProfileEditor({
             </CardContent>
           </Card>
 
-          {/* PayPal payout email */}
-          <Card>
-            <CardHeader>
-              <CardTitle>PayPal email</CardTitle>
-              <CardDescription>
-                Add your PayPal email to receive payouts when milestones are approved.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSavePaypalEmail} className="space-y-3">
-                {paypalError && (
-                  <p className="text-sm text-destructive">{paypalError}</p>
-                )}
-                <Input
-                  type="email"
-                  placeholder="you@example.com"
-                  value={paypalEmail}
-                  onChange={(e) => setPaypalEmail(e.target.value)}
-                  className="max-w-sm"
-                />
-                <Button type="submit" size="sm" disabled={paypalSaving}>
-                  {paypalSaving ? "Saving…" : "Save PayPal email"}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
           {/* Skills */}
           <Card>
             <CardHeader>
@@ -231,6 +191,60 @@ export function ProfileEditor({
               >
                 {skillsSaving ? "Saving…" : "Save skills"}
               </Button>
+            </CardContent>
+          </Card>
+
+          {/* Skill test levels */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Code2 className="h-5 w-5" />
+                Skill levels
+              </CardTitle>
+              <CardDescription>
+                Pass level tests to verify your skills. Max 3 attempts per level, 1 hour cooldown.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {selectedSkillIds.length === 0 ? (
+                <p className="text-sm text-muted-foreground">
+                  Add skills above, then take tests to earn verified levels.
+                </p>
+              ) : (
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {skills
+                    .filter((s) => selectedSkillIds.includes(s.id))
+                    .map((skill) => {
+                      const level = developerLevels[skill.id] ?? 0;
+                      const nextLevel = level + 1;
+                      return (
+                        <div
+                          key={skill.id}
+                          className="flex items-center justify-between rounded-lg border border-border bg-muted/20 px-4 py-3"
+                        >
+                          <div>
+                            <p className="font-medium">{skill.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              Level {level}/10
+                            </p>
+                          </div>
+                          {nextLevel <= 10 ? (
+                            <Button size="sm" variant="outline" asChild>
+                              <Link href="/tests">Take next test</Link>
+                            </Button>
+                          ) : (
+                            <span className="text-xs text-muted-foreground">Done</span>
+                          )}
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+              {selectedSkillIds.length > 0 && (
+                <Button size="sm" className="mt-4" asChild>
+                  <Link href="/tests">Take next test</Link>
+                </Button>
+              )}
             </CardContent>
           </Card>
 
