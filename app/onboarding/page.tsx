@@ -27,7 +27,7 @@ export default async function OnboardingPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted/30 px-4 py-8">
       <div className="mb-4 text-center">
         <Link href="/" className="text-xl font-bold text-primary">
-          DevBridge
+          Codeveria
         </Link>
       </div>
       {profile.role === "student" && <OnboardingStudentForm />}

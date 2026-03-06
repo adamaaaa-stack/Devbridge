@@ -14,7 +14,7 @@ export default function LandingPage() {
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <span className="text-xl font-bold text-primary">DevBridge</span>
+          <span className="text-xl font-bold text-primary">Codeveria</span>
           <nav className="flex items-center gap-4">
             <Link
               href="/login"
@@ -156,7 +156,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="border-t border-border py-8">
         <div className="mx-auto max-w-6xl px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} DevBridge. Hire verified student
+          © {new Date().getFullYear()} Codeveria. Hire verified student
           developers for real paid projects.
         </div>
       </footer>

@@ -73,7 +73,7 @@ export function LoginForm() {
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1 text-center">
         <Link href="/" className="inline-block text-xl font-bold text-primary">
-          DevBridge
+          Codeveria
         </Link>
         <CardTitle className="text-2xl">Log in</CardTitle>
         <CardDescription>

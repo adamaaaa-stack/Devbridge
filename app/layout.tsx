@@ -3,7 +3,7 @@ import "./globals.css";
 import { AppLayoutClient } from "@/components/layout/AppLayoutClient";
 
 export const metadata: Metadata = {
-  title: "DevBridge — Hire Verified Student Developers",
+  title: "Codeveria — Hire Verified Student Developers",
   description:
     "Connect with verified student developers for real paid projects. Escrow-protected milestones, skill-verified talent.",
 };

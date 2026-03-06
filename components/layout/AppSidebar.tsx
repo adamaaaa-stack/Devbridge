@@ -26,7 +26,7 @@ export function AppSidebar() {
     <aside className="flex h-full w-56 flex-col border-r border-border bg-card">
       <div className="flex h-14 items-center border-b border-border px-4">
         <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
-          <span className="text-primary">DevBridge</span>
+          <span className="text-primary">Codeveria</span>
         </Link>
       </div>
       <nav className="flex-1 space-y-0.5 p-2">

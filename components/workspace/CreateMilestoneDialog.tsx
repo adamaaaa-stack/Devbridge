@@ -33,7 +33,7 @@ export function CreateMilestoneDialog({
 
     const result = await createMilestoneAction(formData);
     setLoading(false);
-    if (result && "error" in result && result.error) {
+    if (result && "error" in result && typeof result.error === "string") {
       setError(result.error);
       return;
     }

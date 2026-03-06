@@ -56,7 +56,9 @@ export async function createWorkspaceAction(formData: FormData) {
   return { workspaceId: result.workspace.id };
 }
 
-export async function createMilestoneAction(formData: FormData) {
+export async function createMilestoneAction(
+  formData: FormData
+): Promise<{ error: string } | Record<string, never>> {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
