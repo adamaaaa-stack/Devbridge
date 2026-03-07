@@ -5,18 +5,14 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ExternalLink, Upload, Loader2, CheckCircle } from "lucide-react";
-import { PreviewStatusBadge } from "@/components/workspace/PreviewStatusBadge";
+import { Upload, CheckCircle } from "lucide-react";
 
 export interface SubmissionItem {
   id: string;
   status: string;
   repo_url: string | null;
-  preview_url: string | null;
   description: string | null;
   created_at: string;
-  preview_status?: string | null;
-  preview_error?: string | null;
   escrow?: {
     code_access_granted: boolean;
     company_payment_confirmed: boolean;
@@ -35,11 +31,9 @@ export function SubmitSolutionCard({
 }: SubmitSolutionCardProps) {
   const router = useRouter();
   const [repoUrl, setRepoUrl] = useState("");
-  const [previewUrl, setPreviewUrl] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [buildPreviewId, setBuildPreviewId] = useState<string | null>(null);
   const [confirmReceivedLoadingId, setConfirmReceivedLoadingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -62,25 +56,6 @@ export function SubmitSolutionCard({
     }
   }
 
-  async function handleBuildPreview(submissionId: string) {
-    setError(null);
-    setBuildPreviewId(submissionId);
-    try {
-      const res = await fetch("/api/submissions/build-preview", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ submission_id: submissionId }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Build failed");
-      router.refresh();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Build failed");
-    } finally {
-      setBuildPreviewId(null);
-    }
-  }
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -92,7 +67,6 @@ export function SubmitSolutionCard({
         body: JSON.stringify({
           workspace_id: workspaceId,
           repo_url: repoUrl.trim() || null,
-          preview_url: previewUrl.trim() || null,
           description: description.trim() || null,
         }),
       });
@@ -119,7 +93,6 @@ export function SubmitSolutionCard({
       }
 
       setRepoUrl("");
-      setPreviewUrl("");
       setDescription("");
       setFile(null);
       router.refresh();
@@ -135,7 +108,7 @@ export function SubmitSolutionCard({
       <CardHeader>
         <CardTitle>Submit solution</CardTitle>
         <CardDescription>
-          Upload your code and share a preview URL so the company can test. Payments are handled directly between you and the company. Both parties must confirm payment before the code is released.
+          Upload your code and description. Payments are handled directly between you and the company. Both parties must confirm payment before the code is released.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -150,16 +123,6 @@ export function SubmitSolutionCard({
               placeholder="https://github.com/..."
               value={repoUrl}
               onChange={(e) => setRepoUrl(e.target.value)}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium">Preview URL</label>
-            <Input
-              type="url"
-              placeholder="https://preview.example.com or preview.devbridge.app/..."
-              value={previewUrl}
-              onChange={(e) => setPreviewUrl(e.target.value)}
               className="mt-1"
             />
           </div>
@@ -197,30 +160,8 @@ export function SubmitSolutionCard({
                   key={s.id}
                   className="flex flex-wrap items-center justify-between gap-2 rounded border border-border bg-muted/20 px-3 py-2 text-sm"
                 >
+                  <span className="capitalize">{s.status.replace(/_/g, " ")}</span>
                   <div className="flex items-center gap-2">
-                    <span className="capitalize">{s.status.replace(/_/g, " ")}</span>
-                    <PreviewStatusBadge status={s.preview_status} />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {s.repo_url &&
-                      (s.status === "submitted" || s.status === "preview_failed") && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          disabled={buildPreviewId !== null}
-                          onClick={() => handleBuildPreview(s.id)}
-                        >
-                          {buildPreviewId === s.id ? (
-                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                          ) : (
-                            "Build preview"
-                          )}
-                        </Button>
-                      )}
-                    {!s.repo_url &&
-                      (s.status === "submitted" || s.status === "preview_failed") && (
-                      <span className="text-muted-foreground">Add repo URL to build preview</span>
-                    )}
                     {(s.status === "approved" || s.status === "payment_required") && (
                       <div className="rounded border border-amber-500/30 bg-amber-500/5 px-2 py-1.5 text-xs space-y-1">
                         {s.escrow?.company_payment_confirmed && (
@@ -250,20 +191,7 @@ export function SubmitSolutionCard({
                         )}
                       </div>
                     )}
-                    {s.preview_url && (
-                      <a
-                        href={s.preview_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-primary hover:underline"
-                      >
-                        Preview <ExternalLink className="h-3 w-3" />
-                      </a>
-                    )}
                   </div>
-                  {s.preview_error && (
-                    <span className="w-full text-destructive text-xs">{s.preview_error}</span>
-                  )}
                 </li>
               ))}
             </ul>

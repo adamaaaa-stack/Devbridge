@@ -5,18 +5,14 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Download, CheckCircle } from "lucide-react";
-import { PreviewStatusBadge } from "@/components/workspace/PreviewStatusBadge";
+import { Download, CheckCircle } from "lucide-react";
 
 export interface SubmissionReviewItem {
   id: string;
   status: string;
   repo_url: string | null;
-  preview_url: string | null;
   description: string | null;
   created_at: string;
-  preview_status?: string | null;
-  preview_error?: string | null;
   escrow?: {
     code_access_granted: boolean;
     company_payment_confirmed: boolean;
@@ -95,11 +91,7 @@ export function SubmissionReviewCard({
   }
 
   const reviewable = submissions.filter(
-    (s) =>
-      s.status === "submitted" ||
-      s.status === "preview_ready" ||
-      s.status === "preview_building" ||
-      s.status === "under_review"
+    (s) => s.status === "submitted" || s.status === "under_review"
   );
   const paymentRequired = submissions.filter(
     (s) => s.status === "approved" || s.status === "payment_required"
@@ -113,7 +105,7 @@ export function SubmissionReviewCard({
       <CardHeader>
         <CardTitle>Submission review</CardTitle>
         <CardDescription>
-          Test the preview, then approve or request changes. Payments are handled directly between the company and developer. Both parties must confirm payment before the code is released.
+          Review the submission, then approve or request changes. Payments are handled directly between the company and developer. Both parties must confirm payment before the code is released.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -123,7 +115,7 @@ export function SubmissionReviewCard({
 
         {submissions.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            No submissions yet. The developer will submit a solution with a preview link.
+            No submissions yet. The developer will submit a solution when ready.
           </p>
         ) : (
           <ul className="space-y-4">
@@ -132,35 +124,16 @@ export function SubmissionReviewCard({
                 key={s.id}
                 className="rounded-lg border border-border bg-muted/20 p-4 space-y-3"
               >
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="capitalize">
-                      {s.status.replace(/_/g, " ")}
-                    </Badge>
-                    <PreviewStatusBadge status={s.preview_status} />
-                  </div>
-                  {s.preview_url && (
-                    <a
-                      href={s.preview_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
-                    >
-                      Open preview <ExternalLink className="h-3.5 w-3.5" />
-                    </a>
-                  )}
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge variant="secondary" className="capitalize">
+                    {s.status.replace(/_/g, " ")}
+                  </Badge>
                 </div>
-                {s.preview_error && (
-                  <p className="text-sm text-destructive">{s.preview_error}</p>
-                )}
                 {s.description && (
                   <p className="text-sm text-muted-foreground">{s.description}</p>
                 )}
 
-                {(s.status === "submitted" ||
-                  s.status === "preview_ready" ||
-                  s.status === "preview_building" ||
-                  s.status === "under_review") && (
+                {(s.status === "submitted" || s.status === "under_review") && (
                   <div className="space-y-2">
                     <textarea
                       placeholder="Review notes (optional)"

@@ -206,8 +206,18 @@ export interface Workspace {
   status: WorkspaceStatus;
   start_date: string | null;
   end_date: string | null;
+  context: string | null;
+  run_instructions: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface WorkspaceContextFileDb {
+  id: string;
+  workspace_id: string;
+  file_path: string;
+  uploaded_by: string;
+  created_at: string;
 }
 
 export interface WorkspaceMessage {
@@ -228,29 +238,20 @@ export interface WorkspaceWithParticipants extends Workspace {
 export type SubmissionStatus =
   | "draft"
   | "submitted"
-  | "preview_building"
-  | "preview_ready"
-  | "preview_failed"
   | "under_review"
   | "approved"
   | "payment_required"
   | "delivered";
-
-export type PreviewStatus = "not_started" | "building" | "ready" | "failed";
 
 export interface SubmissionDb {
   id: string;
   workspace_id: string;
   developer_id: string;
   repo_url: string | null;
-  preview_url: string | null;
   description: string | null;
   status: SubmissionStatus;
   code_storage_path: string | null;
   created_at: string;
-  preview_status?: PreviewStatus | null;
-  preview_deployment_id?: string | null;
-  preview_error?: string | null;
 }
 
 export interface SubmissionReviewDb {

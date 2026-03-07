@@ -129,6 +129,89 @@ export async function getWorkspacesForConversation(
   ) as Workspace[];
 }
 
+/** Update workspace context and/or run_instructions (company only). */
+export async function updateWorkspaceContext(
+  workspaceId: string,
+  userId: string,
+  updates: { context?: string | null; run_instructions?: string | null }
+): Promise<{ ok: true } | { error: string }> {
+  const supabase = await createServerSupabaseClient();
+  const { data: w } = await supabase
+    .from("workspaces")
+    .select("company_id")
+    .eq("id", workspaceId)
+    .single();
+  if (!w || w.company_id !== userId) return { error: "Only the company can update project context" };
+  const set: Record<string, string | null> = {};
+  if (updates.context !== undefined) set.context = updates.context?.trim() || null;
+  if (updates.run_instructions !== undefined) set.run_instructions = updates.run_instructions?.trim() || null;
+  if (Object.keys(set).length === 0) return { ok: true };
+  const { error } = await supabase.from("workspaces").update(set).eq("id", workspaceId);
+  if (error) return { error: error.message };
+  return { ok: true };
+}
+
+/** List context files for a workspace (participants only). */
+export async function getWorkspaceContextFiles(
+  workspaceId: string,
+  userId: string
+): Promise<Array<{ id: string; file_path: string; uploaded_by: string; created_at: string }>> {
+  const supabase = await createServerSupabaseClient();
+  const { data: w } = await supabase
+    .from("workspaces")
+    .select("id")
+    .eq("id", workspaceId)
+    .or(`company_id.eq.${userId},student_id.eq.${userId}`)
+    .single();
+  if (!w) return [];
+  const { data } = await supabase
+    .from("workspace_context_files")
+    .select("id, file_path, uploaded_by, created_at")
+    .eq("workspace_id", workspaceId)
+    .order("created_at", { ascending: false });
+  return (data ?? []) as Array<{ id: string; file_path: string; uploaded_by: string; created_at: string }>;
+}
+
+/** Create a context file record after upload (service role). Path is the storage key. */
+export async function createWorkspaceContextFileRecord(
+  workspaceId: string,
+  filePath: string,
+  uploadedBy: string
+): Promise<{ id: string } | { error: string }> {
+  const service = createServiceRoleClient();
+  const { data, error } = await service
+    .from("workspace_context_files")
+    .insert({ workspace_id: workspaceId, file_path: filePath, uploaded_by: uploadedBy })
+    .select("id")
+    .single();
+  if (error) return { error: error.message };
+  return { id: data!.id };
+}
+
+/** Get context file by id and workspace (for signed URL). */
+export async function getWorkspaceContextFilePath(
+  fileId: string,
+  workspaceId: string,
+  userId: string
+): Promise<{ file_path: string } | { error: string }> {
+  const supabase = await createServerSupabaseClient();
+  const { data: w } = await supabase
+    .from("workspaces")
+    .select("id")
+    .eq("id", workspaceId)
+    .or(`company_id.eq.${userId},student_id.eq.${userId}`)
+    .single();
+  if (!w) return { error: "Not found" };
+  const { data: row } = await supabase
+    .from("workspace_context_files")
+    .select("file_path")
+    .eq("id", fileId)
+    .eq("workspace_id", workspaceId)
+    .single();
+  if (!row) return { error: "File not found" };
+  return { file_path: row.file_path };
+}
+
 export async function sendWorkspaceForConfirmation(
   workspaceId: string,
   userId: string

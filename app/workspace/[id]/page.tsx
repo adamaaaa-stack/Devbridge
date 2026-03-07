@@ -5,6 +5,7 @@ import {
   getWorkspaceMessages,
   markWorkspaceMessagesRead,
   getWorkspaceReview,
+  getWorkspaceContextFiles,
 } from "@/lib/workspaces";
 import { getWorkspaceActivity } from "@/lib/workspace-activity";
 import { getSubmissionsForWorkspace } from "@/lib/escrow/submissions";
@@ -13,6 +14,9 @@ import { WorkspaceConfirmationCard } from "@/components/workspace/WorkspaceConfi
 import { WorkspaceTimeline } from "@/components/workspace/WorkspaceTimeline";
 import { CompleteWorkspaceCard } from "@/components/workspace/CompleteWorkspaceCard";
 import { LeaveReviewCard } from "@/components/workspace/LeaveReviewCard";
+import { ProjectContextCard } from "@/components/workspace/ProjectContextCard";
+import { ContextFilesCard } from "@/components/workspace/ContextFilesCard";
+import { RunInstructionsCard } from "@/components/workspace/RunInstructionsCard";
 import { WorkspaceChatWindow } from "@/components/workspace/WorkspaceChatWindow";
 import { WorkspaceMessageComposer } from "@/components/workspace/WorkspaceMessageComposer";
 import { SubmitSolutionCard } from "@/components/escrow/SubmitSolutionCard";
@@ -32,11 +36,12 @@ export default async function WorkspacePage({
     redirect("/messages");
   }
 
-  const [messages, submissions, activity, existingReview] = await Promise.all([
+  const [messages, submissions, activity, existingReview, contextFiles] = await Promise.all([
     getWorkspaceMessages(workspaceId, user.id),
     getSubmissionsForWorkspace(workspaceId, user.id),
     getWorkspaceActivity(workspaceId, user.id),
     getWorkspaceReview(workspaceId),
+    getWorkspaceContextFiles(workspaceId, user.id),
   ]);
 
   await markWorkspaceMessagesRead(workspaceId, user.id);
@@ -74,6 +79,24 @@ export default async function WorkspacePage({
               )}
             </CardContent>
           </Card>
+
+          <ProjectContextCard
+            workspaceId={workspaceId}
+            context={workspace.context ?? null}
+            isCompany={isCompany}
+          />
+
+          <ContextFilesCard
+            workspaceId={workspaceId}
+            initialFiles={contextFiles}
+            isCompany={isCompany}
+          />
+
+          <RunInstructionsCard
+            workspaceId={workspaceId}
+            runInstructions={workspace.run_instructions ?? null}
+            isCompany={isCompany}
+          />
 
           <WorkspaceConfirmationCard
             workspace={workspace}

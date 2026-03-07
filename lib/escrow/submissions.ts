@@ -16,7 +16,6 @@ export async function createSubmission(
   input: {
     workspace_id: string;
     repo_url?: string | null;
-    preview_url?: string | null;
     description?: string | null;
   }
 ): Promise<{ submission: { id: string; status: string } } | { error: string }> {
@@ -37,7 +36,6 @@ export async function createSubmission(
       workspace_id: input.workspace_id,
       developer_id: user.id,
       repo_url: input.repo_url?.trim() || null,
-      preview_url: input.preview_url?.trim() || null,
       description: input.description?.trim() || null,
       status: "submitted",
     })
@@ -76,7 +74,7 @@ export async function reviewSubmission(
     .single();
   if (!w || w.company_id !== user.id) return { error: "Only the company can review" };
 
-  if (sub.status !== "submitted" && sub.status !== "preview_ready" && sub.status !== "preview_building" && sub.status !== "under_review") {
+  if (sub.status !== "submitted" && sub.status !== "under_review") {
     return { error: "Submission is not in a reviewable state" };
   }
 
@@ -215,13 +213,9 @@ export async function getSubmissionsForWorkspace(
     id: string;
     status: string;
     repo_url: string | null;
-    preview_url: string | null;
     description: string | null;
     code_storage_path: string | null;
     created_at: string;
-    preview_status?: string | null;
-    preview_deployment_id?: string | null;
-    preview_error?: string | null;
     escrow?: {
       code_access_granted: boolean;
       company_payment_confirmed: boolean;
@@ -240,7 +234,7 @@ export async function getSubmissionsForWorkspace(
 
   const { data: rows } = await supabase
     .from("submissions")
-    .select("id, status, repo_url, preview_url, description, code_storage_path, created_at, preview_status, preview_deployment_id, preview_error")
+    .select("id, status, repo_url, description, code_storage_path, created_at")
     .eq("workspace_id", workspaceId)
     .order("created_at", { ascending: false });
 
@@ -263,13 +257,9 @@ export async function getSubmissionsForWorkspace(
     id: r.id,
     status: r.status,
     repo_url: r.repo_url ?? null,
-    preview_url: r.preview_url ?? null,
     description: r.description ?? null,
     code_storage_path: r.code_storage_path ?? null,
     created_at: r.created_at,
-    preview_status: (r as { preview_status?: string }).preview_status ?? null,
-    preview_deployment_id: (r as { preview_deployment_id?: string }).preview_deployment_id ?? null,
-    preview_error: (r as { preview_error?: string }).preview_error ?? null,
     escrow: escrowBySub.get(r.id) ?? null,
   }));
 }

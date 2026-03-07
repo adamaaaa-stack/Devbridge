@@ -6,7 +6,7 @@ import { notifySubmissionReady } from "@/lib/notification-events";
 
 /**
  * POST /api/submissions/create
- * Body: { workspace_id, repo_url?, preview_url?, description? }
+ * Body: { workspace_id, repo_url?, description? }
  * Returns: { submission: { id, status } }
  */
 export async function POST(req: Request) {
@@ -26,7 +26,6 @@ export async function POST(req: Request) {
     const result = await createSubmission(user.id, {
       workspace_id,
       repo_url: body.repo_url ?? null,
-      preview_url: body.preview_url ?? null,
       description: body.description ?? null,
     });
 
