@@ -51,11 +51,11 @@ export default async function WorkspacePage({
     workspace.company_id === user.id ? workspace.student : workspace.company;
 
   return (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-4 sm:space-y-6">
       <WorkspaceHeader workspace={workspace} />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="space-y-6">
+      <div className="grid min-w-0 grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
+        <div className="min-w-0 space-y-4 sm:space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Project overview</CardTitle>
@@ -130,13 +130,13 @@ export default async function WorkspacePage({
           <WorkspaceTimeline events={activity} />
         </div>
 
-        <Card className="flex flex-col overflow-hidden">
-          <CardHeader>
+        <Card className="flex min-h-[280px] flex-col overflow-hidden sm:min-h-[320px]">
+          <CardHeader className="shrink-0">
             <CardTitle>Workspace chat</CardTitle>
             <CardDescription>Project-specific messages</CardDescription>
           </CardHeader>
           <CardContent className="flex min-h-0 flex-1 flex-col p-0">
-            <div className="flex min-h-[320px] flex-col">
+            <div className="flex min-h-[200px] flex-1 flex-col sm:min-h-[280px]">
               <WorkspaceChatWindow
                 workspaceId={workspaceId}
                 currentUserId={user.id}

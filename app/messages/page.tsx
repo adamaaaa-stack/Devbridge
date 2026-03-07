@@ -8,15 +8,15 @@ export default async function MessagesPage() {
   const conversations = await getUserConversations(user.id);
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] flex-col gap-4 md:flex-row">
-      <div className="flex flex-col border-border md:w-80 md:shrink-0 md:border-r">
-        <div className="border-b border-border px-4 py-3">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 md:flex-row">
+      <div className="flex min-h-0 flex-1 flex-col border-border md:w-80 md:shrink-0 md:border-r">
+        <div className="shrink-0 border-b border-border px-3 py-2 sm:px-4 sm:py-3">
           <h1 className="text-lg font-semibold">Messages</h1>
           <p className="text-sm text-muted-foreground">
             Your conversations with developers and companies.
           </p>
         </div>
-        <div className="flex-1 overflow-y-auto">
+        <div className="min-h-0 flex-1 overflow-y-auto">
           <ConversationList conversations={conversations} />
         </div>
       </div>

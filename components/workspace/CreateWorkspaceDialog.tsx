@@ -43,8 +43,8 @@ export function CreateWorkspaceDialog({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4">
-      <Card className="w-full max-w-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-background/80 p-4">
+      <Card className="my-auto w-full max-w-lg">
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle>Create workspace</CardTitle>
           <Button variant="ghost" size="sm" onClick={onCancel}>

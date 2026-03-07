@@ -24,22 +24,24 @@ export function WorkspaceHeader({ workspace }: WorkspaceHeaderProps) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm" asChild>
+      <CardHeader className="flex flex-col gap-2 pb-2 sm:flex-row sm:items-start sm:justify-between sm:space-y-0">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+          <Button variant="ghost" size="sm" className="shrink-0" asChild>
             <Link href="/messages" className="gap-2">
               <ArrowLeft className="h-4 w-4" />
               Back
             </Link>
           </Button>
-          <h2 className="text-xl font-semibold tracking-tight">{workspace.title}</h2>
+          <h2 className="min-w-0 truncate text-lg font-semibold tracking-tight sm:text-xl">
+            {workspace.title}
+          </h2>
         </div>
-        <Badge variant={statusVariant[workspace.status] ?? "secondary"}>
+        <Badge variant={statusVariant[workspace.status] ?? "secondary"} className="w-fit shrink-0">
           {workspace.status.replace(/_/g, " ")}
         </Badge>
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="flex flex-wrap gap-4 text-sm">
+        <div className="flex flex-wrap gap-3 text-sm sm:gap-4">
           <div>
             <span className="text-muted-foreground">Company: </span>
             <span className="font-medium">{companyName}</span>
