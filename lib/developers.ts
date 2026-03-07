@@ -183,7 +183,7 @@ export async function getDeveloperById(profileId: string) {
 
   if (profileError || !profile) return null;
 
-  const [profileSkillsRes, statsRes, portfolioRes, reviewsRes] = await Promise.all([
+  const [profileSkillsRes, statsRes, portfolioRes, reviewsRes, verifiedLevelsRes] = await Promise.all([
     supabase
       .from("profile_skills")
       .select("skill_id, self_reported_level")
@@ -203,6 +203,11 @@ export async function getDeveloperById(profileId: string) {
       .select("id, rating, review, created_at, reviewer_id")
       .eq("reviewee_id", profileId)
       .order("created_at", { ascending: false }),
+    supabase
+      .from("developer_skill_levels")
+      .select("skill_id, current_level")
+      .eq("profile_id", profileId)
+      .gt("current_level", 0),
   ]);
 
   const psRows = profileSkillsRes.data ?? [];
@@ -260,6 +265,22 @@ export async function getDeveloperById(profileId: string) {
       ? reviews.reduce((a, r) => a + r.rating, 0) / reviews.length
       : Number(stats?.average_rating ?? 0);
 
+  const verifiedLevelRows = (verifiedLevelsRes.data ?? []) as Array<{ skill_id: string; current_level: number }>;
+  const verifiedSkillIds = verifiedLevelRows.map((r) => r.skill_id);
+  const { data: verifiedSkillsData } =
+    verifiedSkillIds.length > 0
+      ? await supabase.from("skills").select("id, name").in("id", verifiedSkillIds)
+      : { data: [] };
+  const verifiedSkillNames = new Map(
+    (verifiedSkillsData ?? []).map((s: { id: string; name: string }) => [s.id, s.name])
+  );
+  const verifiedLevels = verifiedLevelRows
+    .map((r) => ({
+      skillName: verifiedSkillNames.get(r.skill_id) ?? "Skill",
+      level: r.current_level,
+    }))
+    .sort((a, b) => b.level - a.level);
+
   return {
     profile,
     skills,
@@ -267,5 +288,6 @@ export async function getDeveloperById(profileId: string) {
     portfolioItems,
     reviews,
     averageRating,
+    verifiedLevels,
   };
 }

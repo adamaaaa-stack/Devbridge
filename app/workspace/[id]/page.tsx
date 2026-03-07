@@ -6,10 +6,13 @@ import {
   getWorkspaceMessages,
   markWorkspaceMessagesRead,
 } from "@/lib/workspaces";
+import { getSubmissionsForWorkspace } from "@/lib/escrow/submissions";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { MilestoneList } from "@/components/workspace/MilestoneList";
 import { WorkspaceChatWindow } from "@/components/workspace/WorkspaceChatWindow";
 import { WorkspaceMessageComposer } from "@/components/workspace/WorkspaceMessageComposer";
+import { SubmitSolutionCard } from "@/components/escrow/SubmitSolutionCard";
+import { SubmissionReviewCard } from "@/components/escrow/SubmissionReviewCard";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function WorkspacePage({
@@ -25,13 +28,15 @@ export default async function WorkspacePage({
     redirect("/messages");
   }
 
-  const [milestones, messages] = await Promise.all([
+  const [milestones, messages, submissions] = await Promise.all([
     getMilestonesForWorkspace(workspaceId, user.id),
     getWorkspaceMessages(workspaceId, user.id),
+    getSubmissionsForWorkspace(workspaceId, user.id),
   ]);
 
   await markWorkspaceMessagesRead(workspaceId, user.id);
 
+  const isCompany = workspace.company_id === user.id;
   const otherParticipant =
     workspace.company_id === user.id ? workspace.student : workspace.company;
 
@@ -70,6 +75,20 @@ export default async function WorkspacePage({
             milestones={milestones}
             currentUserId={user.id}
           />
+
+          {workspace.status === "active" && (
+            isCompany ? (
+              <SubmissionReviewCard
+                workspaceId={workspaceId}
+                submissions={submissions}
+              />
+            ) : (
+              <SubmitSolutionCard
+                workspaceId={workspaceId}
+                submissions={submissions}
+              />
+            )
+          )}
         </div>
 
         <Card className="flex flex-col overflow-hidden">

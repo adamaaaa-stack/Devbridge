@@ -7,6 +7,7 @@ import { AppHeader } from "./AppHeader";
 const SIDEBAR_PATHS = [
   "/dashboard",
   "/developers",
+  "/jobs",
   "/messages",
   "/workspace",
   "/profile",

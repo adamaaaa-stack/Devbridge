@@ -33,7 +33,7 @@ export default async function DeveloperProfilePage({
   ]);
   if (!data) notFound();
 
-  const { profile, skills, stats, portfolioItems, reviews, averageRating } =
+  const { profile, skills, stats, portfolioItems, reviews, averageRating, verifiedLevels } =
     data;
   const displayName = profile.display_name ?? "Developer";
   const initials = displayName.trim().charAt(0).toUpperCase();
@@ -134,11 +134,36 @@ export default async function DeveloperProfilePage({
         </Card>
       )}
 
+      {/* Verified levels (from skill tests) */}
+      {verifiedLevels.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Verified levels</CardTitle>
+            <CardDescription>
+              Level passed on skill tests (e.g. Level 6 = passed tests 1–6)
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2">
+              {verifiedLevels.map((v) => (
+                <Badge
+                  key={`${v.skillName}-${v.level}`}
+                  variant="default"
+                  className="py-1.5 text-sm"
+                >
+                  Level {v.level} {v.skillName}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Skills */}
       <Card>
         <CardHeader>
           <CardTitle>Skills</CardTitle>
-          <CardDescription>Technologies and verified levels</CardDescription>
+          <CardDescription>Technologies and self-reported experience</CardDescription>
         </CardHeader>
         <CardContent>
           {skills.length === 0 ? (

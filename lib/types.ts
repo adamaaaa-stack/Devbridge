@@ -246,6 +246,75 @@ export interface WorkspaceWithParticipants extends Workspace {
   student: ParticipantSummary;
 }
 
+// Code escrow: submissions, reviews, escrow records
+export type SubmissionStatus =
+  | "draft"
+  | "submitted"
+  | "preview_ready"
+  | "under_review"
+  | "approved"
+  | "payment_required"
+  | "delivered";
+
+export type EscrowPaymentStatus = "pending" | "paid" | "released";
+
+export interface SubmissionDb {
+  id: string;
+  workspace_id: string;
+  developer_id: string;
+  repo_url: string | null;
+  preview_url: string | null;
+  description: string | null;
+  status: SubmissionStatus;
+  code_storage_path: string | null;
+  created_at: string;
+}
+
+export interface SubmissionReviewDb {
+  id: string;
+  submission_id: string;
+  company_id: string;
+  approved: boolean;
+  review_notes: string | null;
+  created_at: string;
+}
+
+export interface EscrowRecordDb {
+  id: string;
+  submission_id: string;
+  payment_status: EscrowPaymentStatus;
+  code_access_granted: boolean;
+  released_at: string | null;
+  created_at: string;
+}
+
+// Job listings
+export type JobStatus = "open" | "in_progress" | "completed" | "closed";
+export type JobApplicationStatus = "applied" | "shortlisted" | "rejected" | "accepted";
+
+export interface JobDb {
+  id: string;
+  company_id: string;
+  title: string;
+  description: string;
+  skill_required: string | null;
+  skill_level: number | null;
+  estimated_hours: number | null;
+  difficulty: string | null;
+  status: JobStatus;
+  created_at: string;
+}
+
+export interface JobApplicationDb {
+  id: string;
+  job_id: string;
+  developer_id: string;
+  message: string | null;
+  portfolio_link: string | null;
+  status: JobApplicationStatus;
+  created_at: string;
+}
+
 // Portfolio (app/workspace-derived; for display)
 export interface PortfolioItem {
   id: string;

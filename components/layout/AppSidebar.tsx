@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Users,
   MessageSquare,
+  Briefcase,
   FileCheck,
   User,
 } from "lucide-react";
@@ -14,6 +15,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/developers", label: "Developers", icon: Users },
+  { href: "/jobs", label: "Jobs", icon: Briefcase },
   { href: "/messages", label: "Messages", icon: MessageSquare },
   { href: "/tests", label: "Tests", icon: FileCheck },
   { href: "/profile", label: "Profile", icon: User },
