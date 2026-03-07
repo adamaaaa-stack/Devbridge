@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Unlock, Download } from "lucide-react";
+import { ExternalLink, Download } from "lucide-react";
+import { PreviewStatusBadge } from "@/components/workspace/PreviewStatusBadge";
+import { UnlockCodeButton } from "@/components/workspace/UnlockCodeButton";
 
 export interface SubmissionReviewItem {
   id: string;
@@ -14,6 +16,8 @@ export interface SubmissionReviewItem {
   preview_url: string | null;
   description: string | null;
   created_at: string;
+  preview_status?: string | null;
+  preview_error?: string | null;
   escrow?: { payment_status: string; code_access_granted: boolean } | null;
 }
 
@@ -26,7 +30,6 @@ export function SubmissionReviewCard({
   submissions,
 }: SubmissionReviewCardProps) {
   const router = useRouter();
-  const [loadingId, setLoadingId] = useState<string | null>(null);
   const [reviewLoadingId, setReviewLoadingId] = useState<string | null>(null);
   const [reviewNotes, setReviewNotes] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
@@ -54,25 +57,6 @@ export function SubmissionReviewCard({
     }
   }
 
-  async function handleUnlock(submissionId: string) {
-    setError(null);
-    setLoadingId(submissionId);
-    try {
-      const res = await fetch("/api/submissions/unlock", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ submission_id: submissionId }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Unlock failed");
-      router.refresh();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setLoadingId(null);
-    }
-  }
-
   async function handleDownload(submissionId: string) {
     setError(null);
     try {
@@ -88,10 +72,18 @@ export function SubmissionReviewCard({
   }
 
   const reviewable = submissions.filter(
-    (s) => s.status === "submitted" || s.status === "preview_ready" || s.status === "under_review"
+    (s) =>
+      s.status === "submitted" ||
+      s.status === "preview_ready" ||
+      s.status === "preview_building" ||
+      s.status === "under_review"
   );
-  const approved = submissions.filter((s) => s.status === "approved");
-  const delivered = submissions.filter((s) => s.status === "delivered" || s.escrow?.code_access_granted);
+  const paymentRequired = submissions.filter(
+    (s) => s.status === "approved" || s.status === "payment_required"
+  );
+  const delivered = submissions.filter(
+    (s) => s.status === "delivered" || s.escrow?.code_access_granted
+  );
 
   return (
     <Card>
@@ -117,10 +109,13 @@ export function SubmissionReviewCard({
                 key={s.id}
                 className="rounded-lg border border-border bg-muted/20 p-4 space-y-3"
               >
-                <div className="flex items-center justify-between gap-2">
-                  <Badge variant="secondary" className="capitalize">
-                    {s.status.replace(/_/g, " ")}
-                  </Badge>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary" className="capitalize">
+                      {s.status.replace(/_/g, " ")}
+                    </Badge>
+                    <PreviewStatusBadge status={s.preview_status} />
+                  </div>
                   {s.preview_url && (
                     <a
                       href={s.preview_url}
@@ -132,11 +127,17 @@ export function SubmissionReviewCard({
                     </a>
                   )}
                 </div>
+                {s.preview_error && (
+                  <p className="text-sm text-destructive">{s.preview_error}</p>
+                )}
                 {s.description && (
                   <p className="text-sm text-muted-foreground">{s.description}</p>
                 )}
 
-                {(s.status === "submitted" || s.status === "preview_ready" || s.status === "under_review") && (
+                {(s.status === "submitted" ||
+                  s.status === "preview_ready" ||
+                  s.status === "preview_building" ||
+                  s.status === "under_review") && (
                   <div className="space-y-2">
                     <textarea
                       placeholder="Review notes (optional)"
@@ -167,18 +168,10 @@ export function SubmissionReviewCard({
                   </div>
                 )}
 
-                {s.status === "approved" && (
+                {(s.status === "approved" || s.status === "payment_required") && (
                   <div className="rounded border border-amber-500/30 bg-amber-500/5 p-3 text-sm">
                     <p className="font-medium">Payment required to unlock source code.</p>
-                    <Button
-                      size="sm"
-                      className="mt-2 gap-2"
-                      onClick={() => handleUnlock(s.id)}
-                      disabled={loadingId === s.id}
-                    >
-                      <Unlock className="h-4 w-4" />
-                      {loadingId === s.id ? "Processing…" : "Unlock code (stub payment)"}
-                    </Button>
+                    <UnlockCodeButton submissionId={s.id} />
                   </div>
                 )}
 

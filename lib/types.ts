@@ -228,11 +228,15 @@ export interface WorkspaceWithParticipants extends Workspace {
 export type SubmissionStatus =
   | "draft"
   | "submitted"
+  | "preview_building"
   | "preview_ready"
+  | "preview_failed"
   | "under_review"
   | "approved"
   | "payment_required"
   | "delivered";
+
+export type PreviewStatus = "not_started" | "building" | "ready" | "failed";
 
 export type EscrowPaymentStatus = "pending" | "paid" | "released";
 
@@ -246,6 +250,24 @@ export interface SubmissionDb {
   status: SubmissionStatus;
   code_storage_path: string | null;
   created_at: string;
+  preview_status?: PreviewStatus | null;
+  preview_deployment_id?: string | null;
+  preview_error?: string | null;
+}
+
+export interface SubmissionPaymentDb {
+  id: string;
+  submission_id: string;
+  workspace_id: string;
+  company_id: string;
+  developer_id: string;
+  lemonsqueezy_checkout_id: string | null;
+  lemonsqueezy_order_id: string | null;
+  amount_cents: number | null;
+  currency: string;
+  status: "pending" | "paid" | "failed" | "refunded";
+  created_at: string;
+  paid_at: string | null;
 }
 
 export interface SubmissionReviewDb {

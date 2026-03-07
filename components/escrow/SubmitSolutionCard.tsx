@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ExternalLink, Upload } from "lucide-react";
+import { ExternalLink, Upload, Loader2 } from "lucide-react";
+import { PreviewStatusBadge } from "@/components/workspace/PreviewStatusBadge";
 
 export interface SubmissionItem {
   id: string;
@@ -14,6 +15,8 @@ export interface SubmissionItem {
   preview_url: string | null;
   description: string | null;
   created_at: string;
+  preview_status?: string | null;
+  preview_error?: string | null;
 }
 
 interface SubmitSolutionCardProps {
@@ -31,7 +34,27 @@ export function SubmitSolutionCard({
   const [description, setDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [buildPreviewId, setBuildPreviewId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  async function handleBuildPreview(submissionId: string) {
+    setError(null);
+    setBuildPreviewId(submissionId);
+    try {
+      const res = await fetch("/api/submissions/build-preview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ submission_id: submissionId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Build failed");
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Build failed");
+    } finally {
+      setBuildPreviewId(null);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -147,10 +170,32 @@ export function SubmitSolutionCard({
               {submissions.map((s) => (
                 <li
                   key={s.id}
-                  className="flex items-center justify-between rounded border border-border bg-muted/20 px-3 py-2 text-sm"
+                  className="flex flex-wrap items-center justify-between gap-2 rounded border border-border bg-muted/20 px-3 py-2 text-sm"
                 >
-                  <span className="capitalize">{s.status.replace(/_/g, " ")}</span>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="capitalize">{s.status.replace(/_/g, " ")}</span>
+                    <PreviewStatusBadge status={s.preview_status} />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {s.repo_url &&
+                      (s.status === "submitted" || s.status === "preview_failed") && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={buildPreviewId !== null}
+                          onClick={() => handleBuildPreview(s.id)}
+                        >
+                          {buildPreviewId === s.id ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            "Build preview"
+                          )}
+                        </Button>
+                      )}
+                    {!s.repo_url &&
+                      (s.status === "submitted" || s.status === "preview_failed") && (
+                      <span className="text-muted-foreground">Add repo URL to build preview</span>
+                    )}
                     {s.preview_url && (
                       <a
                         href={s.preview_url}
@@ -162,6 +207,9 @@ export function SubmitSolutionCard({
                       </a>
                     )}
                   </div>
+                  {s.preview_error && (
+                    <span className="w-full text-destructive text-xs">{s.preview_error}</span>
+                  )}
                 </li>
               ))}
             </ul>

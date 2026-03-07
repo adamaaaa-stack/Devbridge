@@ -76,7 +76,7 @@ export async function reviewSubmission(
     .single();
   if (!w || w.company_id !== user.id) return { error: "Only the company can review" };
 
-  if (sub.status !== "submitted" && sub.status !== "preview_ready" && sub.status !== "under_review") {
+  if (sub.status !== "submitted" && sub.status !== "preview_ready" && sub.status !== "preview_building" && sub.status !== "under_review") {
     return { error: "Submission is not in a reviewable state" };
   }
 
@@ -91,7 +91,7 @@ export async function reviewSubmission(
   if (reviewError) return { error: reviewError.message };
 
   if (input.approved) {
-    const newStatus: SubmissionStatus = "approved";
+    const newStatus: SubmissionStatus = "payment_required";
     await service.from("submissions").update({ status: newStatus }).eq("id", input.submission_id);
     await service.from("escrow_records").upsert(
       {
@@ -106,40 +106,6 @@ export async function reviewSubmission(
 
   await service.from("submissions").update({ status: "under_review" }).eq("id", input.submission_id);
   return { submission: { id: sub.id, status: "under_review" } };
-}
-
-/**
- * Stub payment: simulate success, set escrow to 'paid', then release code.
- * Replace with real payment provider later.
- */
-export async function processSubmissionPayment(
-  submissionId: string,
-  _companyUserId: string
-): Promise<{ success: true; paymentId: string } | { error: string }> {
-  const service = createServiceRoleClient();
-
-  const { data: escrow } = await service
-    .from("escrow_records")
-    .select("id, payment_status")
-    .eq("submission_id", submissionId)
-    .single();
-
-  if (!escrow) return { error: "Escrow record not found" };
-  if (escrow.payment_status === "paid" || escrow.payment_status === "released") {
-    return { success: true, paymentId: `stub_payment_${submissionId}` };
-  }
-
-  await service
-    .from("escrow_records")
-    .update({ payment_status: "paid" })
-    .eq("submission_id", submissionId);
-
-  const releaseResult = await releaseCode(submissionId);
-  if (releaseResult && "error" in releaseResult) {
-    return { error: releaseResult.error };
-  }
-
-  return { success: true, paymentId: `stub_payment_${submissionId}` };
 }
 
 /**
@@ -233,7 +199,7 @@ export async function getDownloadUrl(
 
   const { data: signed } = await service.storage
     .from(CODE_BUCKET)
-    .createSignedUrl(sub.code_storage_path, 3600);
+    .createSignedUrl(sub.code_storage_path, 300);
 
   if (signed?.signedUrl) return { url: signed.signedUrl };
   return { error: "Failed to generate download URL" };
@@ -252,6 +218,9 @@ export async function getSubmissionsForWorkspace(
     description: string | null;
     code_storage_path: string | null;
     created_at: string;
+    preview_status?: string | null;
+    preview_deployment_id?: string | null;
+    preview_error?: string | null;
     escrow?: { payment_status: string; code_access_granted: boolean } | null;
   }>
 > {
@@ -266,7 +235,7 @@ export async function getSubmissionsForWorkspace(
 
   const { data: rows } = await supabase
     .from("submissions")
-    .select("id, status, repo_url, preview_url, description, code_storage_path, created_at")
+    .select("id, status, repo_url, preview_url, description, code_storage_path, created_at, preview_status, preview_deployment_id, preview_error")
     .eq("workspace_id", workspaceId)
     .order("created_at", { ascending: false });
 
@@ -293,6 +262,9 @@ export async function getSubmissionsForWorkspace(
     description: r.description ?? null,
     code_storage_path: r.code_storage_path ?? null,
     created_at: r.created_at,
+    preview_status: (r as { preview_status?: string }).preview_status ?? null,
+    preview_deployment_id: (r as { preview_deployment_id?: string }).preview_deployment_id ?? null,
+    preview_error: (r as { preview_error?: string }).preview_error ?? null,
     escrow: escrowBySub.get(r.id) ?? null,
   }));
 }
