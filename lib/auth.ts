@@ -18,6 +18,7 @@ export interface DbProfile {
   company_description: string | null;
   created_at: string;
   updated_at: string;
+  is_banned?: boolean;
 }
 
 export async function getCurrentUser() {
@@ -48,6 +49,8 @@ export async function getCurrentProfile(): Promise<DbProfile | null> {
 export async function requireUser() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
+  const profile = await getCurrentProfile();
+  if (profile?.is_banned) redirect("/login?banned=1");
   return user;
 }
 

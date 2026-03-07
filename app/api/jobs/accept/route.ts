@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { acceptApplication } from "@/lib/jobs";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { notifyApplicationAccepted } from "@/lib/notification-events";
 
 /**
  * POST /api/jobs/accept
@@ -25,6 +26,23 @@ export async function POST(req: Request) {
 
     if ("error" in result) {
       return NextResponse.json({ error: result.error }, { status: 400 });
+    }
+    const { data: app } = await supabase
+      .from("job_applications")
+      .select("developer_id")
+      .eq("id", application_id)
+      .single();
+    if (app) {
+      const { data: ws } = await supabase
+        .from("workspaces")
+        .select("title")
+        .eq("id", result.workspaceId)
+        .single();
+      await notifyApplicationAccepted(
+        app.developer_id,
+        result.workspaceId,
+        ws?.title ?? "New workspace"
+      );
     }
     return NextResponse.json({ workspaceId: result.workspaceId });
   } catch (e) {

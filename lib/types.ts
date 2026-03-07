@@ -49,6 +49,10 @@ export interface TestSubmissionDb {
   passed: boolean;
   ai_feedback: string | null;
   created_at: string;
+  time_started: string | null;
+  time_submitted: string | null;
+  code_hash: string | null;
+  flagged_for_review: boolean;
 }
 
 export interface DeveloperSkillLevelDb {
@@ -182,7 +186,7 @@ export interface ConversationWithParticipant {
   unreadCount: number;
 }
 
-// Workspace & milestones (DB-aligned, collaboration-only; no payment/funding)
+// Workspace (DB-aligned, collaboration-only)
 export type WorkspaceStatus =
   | "draft"
   | "awaiting_student_confirmation"
@@ -213,32 +217,6 @@ export interface WorkspaceMessage {
   body: string;
   created_at: string;
   read_at: string | null;
-}
-
-export type MilestoneStatus =
-  | "draft"
-  | "pending_student_confirmation"
-  | "active"
-  | "submitted"
-  | "approved"
-  | "rejected"
-  | "cancelled";
-
-export interface Milestone {
-  id: string;
-  workspace_id: string;
-  order_index: number;
-  title: string;
-  description: string | null;
-  amount: number;
-  due_date: string | null;
-  status: MilestoneStatus;
-  submission_notes: string | null;
-  submitted_at: string | null;
-  approved_at: string | null;
-  rejected_at: string | null;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface WorkspaceWithParticipants extends Workspace {
@@ -312,6 +290,49 @@ export interface JobApplicationDb {
   message: string | null;
   portfolio_link: string | null;
   status: JobApplicationStatus;
+  created_at: string;
+}
+
+// Notifications (V1)
+export interface NotificationDb {
+  id: string;
+  user_id: string;
+  type: string;
+  title: string;
+  message: string | null;
+  link: string | null;
+  read: boolean;
+  created_at: string;
+}
+
+// Workspace reviews (V1, after workspace completed)
+export interface WorkspaceReviewDb {
+  id: string;
+  workspace_id: string;
+  company_id: string;
+  developer_id: string;
+  rating: number;
+  review_text: string | null;
+  created_at: string;
+}
+
+// Verified projects (V1, from completed workspaces)
+export interface VerifiedProjectDb {
+  id: string;
+  developer_id: string;
+  workspace_id: string;
+  title: string;
+  description: string | null;
+  tech_stack: string[];
+  completed_at: string;
+}
+
+// Workspace activity (V1 timeline)
+export interface WorkspaceActivityDb {
+  id: string;
+  workspace_id: string;
+  event_type: string;
+  description: string | null;
   created_at: string;
 }
 

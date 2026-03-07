@@ -1,8 +1,9 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createServiceRoleClient } from "@/lib/supabase/service";
+import { logWorkspaceActivity } from "@/lib/workspace-activity";
 import type {
   Workspace,
   WorkspaceMessage,
-  Milestone,
   WorkspaceWithParticipants,
   ParticipantSummary,
 } from "@/lib/types";
@@ -33,23 +34,6 @@ export async function getWorkspaceById(
     : { id: w.student_id, display_name: null, role: "student", avatar_url: null };
 
   return { ...w, company, student } as WorkspaceWithParticipants;
-}
-
-export async function getMilestonesForWorkspace(
-  workspaceId: string,
-  userId: string
-): Promise<Milestone[]> {
-  const supabase = await createServerSupabaseClient();
-  const { data: w } = await supabase.from("workspaces").select("company_id, student_id").eq("id", workspaceId).single();
-  if (!w || (w.company_id !== userId && w.student_id !== userId)) return [];
-
-  const { data, error } = await supabase
-    .from("milestones")
-    .select("*")
-    .eq("workspace_id", workspaceId)
-    .order("order_index", { ascending: true });
-  if (error) return [];
-  return (data ?? []) as Milestone[];
 }
 
 export async function getWorkspaceMessages(
@@ -122,6 +106,7 @@ export async function createWorkspaceFromConversation(
     .select("*")
     .single();
   if (error) return { error: error.message };
+  await logWorkspaceActivity(inserted.id, "workspace_created", "Workspace created");
   return { workspace: inserted as Workspace };
 }
 
@@ -140,90 +125,6 @@ export async function getWorkspaceForConversation(
   return data as Workspace;
 }
 
-export async function createMilestone(input: {
-  workspace_id: string;
-  order_index: number;
-  title: string;
-  description?: string | null;
-  amount: number;
-  due_date?: string | null;
-  userId: string;
-}): Promise<{ milestone: Milestone } | { error: string }> {
-  const supabase = await createServerSupabaseClient();
-  const { data: w } = await supabase.from("workspaces").select("company_id, status").eq("id", input.workspace_id).single();
-  if (!w || w.company_id !== input.userId) return { error: "Unauthorized" };
-  if (w.status !== "draft") return { error: "Can only add milestones in draft" };
-
-  const { data, error } = await supabase
-    .from("milestones")
-    .insert({
-      workspace_id: input.workspace_id,
-      order_index: input.order_index,
-      title: input.title.trim(),
-      description: input.description?.trim() || null,
-      amount: input.amount,
-      due_date: input.due_date || null,
-      status: "draft",
-    })
-    .select("*")
-    .single();
-  if (error) return { error: error.message };
-  return { milestone: data as Milestone };
-}
-
-export async function updateMilestone(input: {
-  milestoneId: string;
-  workspace_id: string;
-  title?: string;
-  description?: string | null;
-  amount?: number;
-  due_date?: string | null;
-  order_index?: number;
-  userId: string;
-}): Promise<{ milestone: Milestone } | { error: string }> {
-  const supabase = await createServerSupabaseClient();
-  const { data: w } = await supabase.from("workspaces").select("company_id, status").eq("id", input.workspace_id).single();
-  if (!w || w.company_id !== input.userId) return { error: "Unauthorized" };
-  if (w.status !== "draft") return { error: "Can only edit milestones in draft" };
-
-  const updates: Record<string, unknown> = {};
-  if (input.title !== undefined) updates.title = input.title.trim();
-  if (input.description !== undefined) updates.description = input.description?.trim() || null;
-  if (input.amount !== undefined) updates.amount = input.amount;
-  if (input.due_date !== undefined) updates.due_date = input.due_date || null;
-  if (input.order_index !== undefined) updates.order_index = input.order_index;
-  if (Object.keys(updates).length === 0) {
-    const { data } = await supabase.from("milestones").select("*").eq("id", input.milestoneId).single();
-    return data ? { milestone: data as Milestone } : { error: "Not found" };
-  }
-
-  const { data, error } = await supabase
-    .from("milestones")
-    .update(updates)
-    .eq("id", input.milestoneId)
-    .eq("workspace_id", input.workspace_id)
-    .select("*")
-    .single();
-  if (error) return { error: error.message };
-  return { milestone: data as Milestone };
-}
-
-export async function deleteMilestone(
-  milestoneId: string,
-  userId: string
-): Promise<{ error?: string }> {
-  const supabase = await createServerSupabaseClient();
-  const { data: m } = await supabase.from("milestones").select("workspace_id").eq("id", milestoneId).single();
-  if (!m) return { error: "Not found" };
-  const { data: w } = await supabase.from("workspaces").select("company_id, status").eq("id", m.workspace_id).single();
-  if (!w || w.company_id !== userId) return { error: "Unauthorized" };
-  if (w.status !== "draft") return { error: "Can only delete milestones in draft" };
-
-  const { error } = await supabase.from("milestones").delete().eq("id", milestoneId);
-  if (error) return { error: error.message };
-  return {};
-}
-
 export async function sendWorkspaceForConfirmation(
   workspaceId: string,
   userId: string
@@ -233,11 +134,8 @@ export async function sendWorkspaceForConfirmation(
   if (!w || w.company_id !== userId) return { error: "Unauthorized" };
   if (w.status !== "draft") return { error: "Workspace is not in draft" };
 
-  const { data: milestones } = await supabase.from("milestones").select("id").eq("workspace_id", workspaceId);
-  if ((milestones ?? []).length === 0) return { error: "Add at least one milestone" };
-
   await supabase.from("workspaces").update({ status: "awaiting_student_confirmation" }).eq("id", workspaceId);
-  await supabase.from("milestones").update({ status: "pending_student_confirmation" }).eq("workspace_id", workspaceId);
+  await logWorkspaceActivity(workspaceId, "student_invited", "Workspace sent to student for confirmation");
   return {};
 }
 
@@ -251,7 +149,7 @@ export async function studentAcceptWorkspace(
   if (w.status !== "awaiting_student_confirmation") return { error: "Invalid status" };
 
   await supabase.from("workspaces").update({ status: "active" }).eq("id", workspaceId);
-  await supabase.from("milestones").update({ status: "active" }).eq("workspace_id", workspaceId);
+  await logWorkspaceActivity(workspaceId, "student_accepted", "Student accepted the workspace");
   return {};
 }
 
@@ -265,8 +163,65 @@ export async function studentRequestWorkspaceChanges(
   if (w.status !== "awaiting_student_confirmation") return { error: "Invalid status" };
 
   await supabase.from("workspaces").update({ status: "draft" }).eq("id", workspaceId);
-  await supabase.from("milestones").update({ status: "draft" }).eq("workspace_id", workspaceId);
   return {};
+}
+
+export async function completeWorkspace(
+  workspaceId: string,
+  userId: string
+): Promise<{ error?: string }> {
+  const supabase = await createServerSupabaseClient();
+  const { data: w } = await supabase.from("workspaces").select("company_id, student_id, title, description, tech_stack, status").eq("id", workspaceId).single();
+  if (!w || w.company_id !== userId) return { error: "Unauthorized" };
+  if (w.status !== "active") return { error: "Workspace must be active to complete" };
+
+  await supabase.from("workspaces").update({ status: "completed" }).eq("id", workspaceId);
+
+  const service = createServiceRoleClient();
+  await service.from("verified_projects").insert({
+    developer_id: w.student_id,
+    workspace_id: workspaceId,
+    title: w.title,
+    description: w.description,
+    tech_stack: w.tech_stack?.length ? w.tech_stack : [],
+  });
+  await logWorkspaceActivity(workspaceId, "workspace_completed", "Workspace marked complete");
+  return {};
+}
+
+export async function leaveWorkspaceReview(
+  workspaceId: string,
+  userId: string,
+  input: { rating: number; review_text?: string | null }
+): Promise<{ error?: string }> {
+  const supabase = await createServerSupabaseClient();
+  const { data: w } = await supabase.from("workspaces").select("company_id, student_id, status").eq("id", workspaceId).single();
+  if (!w || w.company_id !== userId) return { error: "Unauthorized" };
+  if (w.status !== "completed") return { error: "Workspace must be completed to leave a review" };
+  if (input.rating < 1 || input.rating > 5) return { error: "Rating must be 1–5" };
+
+  const { error } = await supabase.from("workspace_reviews").upsert(
+    {
+      workspace_id: workspaceId,
+      company_id: userId,
+      developer_id: w.student_id,
+      rating: input.rating,
+      review_text: input.review_text?.trim() || null,
+    },
+    { onConflict: "workspace_id" }
+  );
+  if (error) return { error: error.message };
+  return {};
+}
+
+export async function getWorkspaceReview(workspaceId: string): Promise<{ rating: number; review_text: string | null } | null> {
+  const supabase = await createServerSupabaseClient();
+  const { data } = await supabase
+    .from("workspace_reviews")
+    .select("rating, review_text")
+    .eq("workspace_id", workspaceId)
+    .maybeSingle();
+  return data as { rating: number; review_text: string | null } | null;
 }
 
 export async function markWorkspaceMessagesRead(
@@ -284,66 +239,3 @@ export async function markWorkspaceMessagesRead(
     .is("read_at", null);
 }
 
-/**
- * Student submits a milestone for company approval.
- */
-export async function submitMilestone(
-  milestoneId: string,
-  workspaceId: string,
-  studentUserId: string
-): Promise<{ error?: string }> {
-  const supabase = await createServerSupabaseClient();
-  const { data: m } = await supabase
-    .from("milestones")
-    .select("id, workspace_id, student_id, status")
-    .eq("id", milestoneId)
-    .eq("workspace_id", workspaceId)
-    .single();
-  if (!m || m.student_id !== studentUserId) return { error: "Unauthorized" };
-  if (m.status !== "active") return { error: "Milestone is not active" };
-  const { error } = await supabase
-    .from("milestones")
-    .update({ status: "submitted", submitted_at: new Date().toISOString() })
-    .eq("id", milestoneId);
-  if (error) return { error: error.message };
-  return {};
-}
-
-/**
- * Company approves a submitted milestone (collaboration-only; no payments).
- */
-export async function approveMilestone(
-  milestoneId: string,
-  workspaceId: string,
-  companyUserId: string
-): Promise<{ error?: string }> {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user || user.id !== companyUserId) return { error: "Unauthorized" };
-
-  const { data: milestone } = await supabase
-    .from("milestones")
-    .select("id, workspace_id, status")
-    .eq("id", milestoneId)
-    .eq("workspace_id", workspaceId)
-    .single();
-  if (!milestone) return { error: "Milestone not found" };
-  if (milestone.status !== "submitted") return { error: "Milestone must be submitted to approve" };
-
-  const { data: workspace } = await supabase
-    .from("workspaces")
-    .select("company_id")
-    .eq("id", workspaceId)
-    .single();
-  if (!workspace || workspace.company_id !== user.id) return { error: "Forbidden" };
-
-  const { error } = await supabase
-    .from("milestones")
-    .update({
-      status: "approved",
-      approved_at: new Date().toISOString(),
-    })
-    .eq("id", milestoneId);
-  if (error) return { error: error.message };
-  return {};
-}

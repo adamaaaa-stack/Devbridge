@@ -33,7 +33,7 @@ export default async function DeveloperProfilePage({
   ]);
   if (!data) notFound();
 
-  const { profile, skills, stats, portfolioItems, reviews, averageRating, verifiedLevels } =
+  const { profile, skills, stats, portfolioItems, reviews, averageRating, verifiedLevels, verifiedProjects } =
     data;
   const displayName = profile.display_name ?? "Developer";
   const initials = displayName.trim().charAt(0).toUpperCase();
@@ -186,6 +186,43 @@ export default async function DeveloperProfilePage({
           )}
         </CardContent>
       </Card>
+
+      {/* Verified projects (from completed workspaces) */}
+      {verifiedProjects.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Verified projects</CardTitle>
+            <CardDescription>Completed workspaces on Codeveria</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {verifiedProjects.map((vp) => (
+                <Card key={vp.id} className="overflow-hidden">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-lg">{vp.title}</CardTitle>
+                    {vp.description && (
+                      <CardDescription className="line-clamp-2">
+                        {vp.description}
+                      </CardDescription>
+                    )}
+                  </CardHeader>
+                  <CardContent>
+                    {vp.tech_stack?.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {vp.tech_stack.map((t) => (
+                          <Badge key={t} variant="outline" className="text-xs">
+                            {t}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Portfolio */}
       <Card>

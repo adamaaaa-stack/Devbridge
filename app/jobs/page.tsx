@@ -4,11 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getCurrentProfile } from "@/lib/auth";
+import { JobFilterBar } from "@/components/jobs/JobFilterBar";
 import { Briefcase, Plus } from "lucide-react";
 
-export default async function JobsPage() {
+export default async function JobsPage({
+  searchParams,
+}: {
+  searchParams: { search?: string; skill?: string; difficulty?: string; estimated_hours?: string };
+}) {
+  const params = searchParams ?? {};
+  const filters = {
+    search: params.search ?? null,
+    skill: params.skill ?? null,
+    difficulty: params.difficulty ?? null,
+    estimated_hours_max: params.estimated_hours ? parseInt(params.estimated_hours, 10) : null,
+  };
   const [jobs, profile] = await Promise.all([
-    listOpenJobs(),
+    listOpenJobs(filters),
     getCurrentProfile(),
   ]);
   const isCompany = profile?.role === "company";
@@ -31,6 +43,8 @@ export default async function JobsPage() {
           </Button>
         )}
       </div>
+
+      <JobFilterBar />
 
       {jobs.length === 0 ? (
         <Card>

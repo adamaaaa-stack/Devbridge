@@ -3,15 +3,13 @@
 import { revalidatePath } from "next/cache";
 import {
   createWorkspaceFromConversation,
-  createMilestone,
-  updateMilestone,
-  deleteMilestone,
   sendWorkspaceForConfirmation,
   studentAcceptWorkspace,
   studentRequestWorkspaceChanges,
-  submitMilestone,
-  approveMilestone,
+  completeWorkspace,
+  leaveWorkspaceReview,
 } from "@/lib/workspaces";
+import { notifyWorkspaceInvite } from "@/lib/notification-events";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export async function createWorkspaceAction(formData: FormData) {
@@ -58,80 +56,13 @@ export async function createWorkspaceAction(formData: FormData) {
   return { workspaceId: result.workspace.id };
 }
 
-export async function createMilestoneAction(
-  formData: FormData
-): Promise<{ error: string } | Record<string, never>> {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: "Not authenticated" };
-
-  const workspace_id = (formData.get("workspace_id") as string)?.trim();
-  const order_index = parseInt(formData.get("order_index") as string, 10) || 0;
-  const title = (formData.get("title") as string)?.trim();
-  const description = (formData.get("description") as string)?.trim() || null;
-  const due_date = (formData.get("due_date") as string)?.trim() || null;
-
-  if (!workspace_id || !title) return { error: "Title is required" };
-
-  const result = await createMilestone({
-    workspace_id,
-    order_index,
-    title,
-    description,
-    amount: 0,
-    due_date,
-    userId: user.id,
-  });
-  if ("error" in result) return result;
-  revalidatePath(`/workspace/${workspace_id}`);
-  return {};
-}
-
-export async function updateMilestoneAction(formData: FormData) {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: "Not authenticated" };
-
-  const milestoneId = (formData.get("milestone_id") as string)?.trim();
-  const workspace_id = (formData.get("workspace_id") as string)?.trim();
-  const title = (formData.get("title") as string)?.trim();
-  const description = (formData.get("description") as string)?.trim() || null;
-  const due_date = (formData.get("due_date") as string)?.trim() || null;
-  const order_indexStr = formData.get("order_index") as string;
-  const order_index = order_indexStr ? parseInt(order_indexStr, 10) : undefined;
-
-  if (!milestoneId || !workspace_id) return { error: "Missing ids" };
-
-  const result = await updateMilestone({
-    milestoneId,
-    workspace_id,
-    title: title || undefined,
-    description,
-    due_date,
-    order_index,
-    userId: user.id,
-  });
-  if ("error" in result) return result;
-  revalidatePath(`/workspace/${workspace_id}`);
-  return {};
-}
-
-export async function deleteMilestoneAction(milestoneId: string, workspaceId: string) {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: "Not authenticated" };
-  const result = await deleteMilestone(milestoneId, user.id);
-  if (result.error) return result;
-  revalidatePath(`/workspace/${workspaceId}`);
-  return {};
-}
-
 export async function sendForConfirmationAction(workspaceId: string) {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
   const result = await sendWorkspaceForConfirmation(workspaceId, user.id);
   if (result.error) return result;
+  await notifyWorkspaceInvite(workspaceId);
   revalidatePath(`/workspace/${workspaceId}`);
   return {};
 }
@@ -156,22 +87,31 @@ export async function studentRequestChangesAction(workspaceId: string) {
   return {};
 }
 
-export async function submitMilestoneAction(milestoneId: string, workspaceId: string) {
+export async function completeWorkspaceAction(workspaceId: string): Promise<{ error?: string }> {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
-  const result = await submitMilestone(milestoneId, workspaceId, user.id);
+  const result = await completeWorkspace(workspaceId, user.id);
   if (result.error) return result;
   revalidatePath(`/workspace/${workspaceId}`);
   return {};
 }
 
-export async function approveMilestoneAction(milestoneId: string, workspaceId: string) {
+export async function leaveReviewAction(
+  workspaceId: string,
+  rating: number,
+  reviewText: string | null
+): Promise<{ error?: string }> {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
-  const result = await approveMilestone(milestoneId, workspaceId, user.id);
+  const result = await leaveWorkspaceReview(workspaceId, user.id, {
+    rating,
+    review_text: reviewText ?? undefined,
+  });
   if (result.error) return result;
   revalidatePath(`/workspace/${workspaceId}`);
+  revalidatePath("/developers");
   return {};
 }
+

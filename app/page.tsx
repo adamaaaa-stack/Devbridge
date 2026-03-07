@@ -39,7 +39,7 @@ export default function LandingPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
             Connect with talent that has passed skill tests. Message developers,
-            agree on scope and milestones, and collaborate. Every project becomes a
+            agree on scope and collaborate. Every project becomes a
             portfolio entry.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -94,22 +94,22 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Workspaces & milestones */}
+      {/* Workspaces */}
       <section className="border-t border-border bg-muted/30 py-20 md:py-24">
         <div className="mx-auto max-w-6xl px-4">
           <div className="flex flex-col items-center gap-12 md:flex-row-reverse md:items-start">
             <div className="flex-1">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary">
                 <Lock className="h-4 w-4" />
-                Milestone tracking
+                Workspaces
               </div>
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                Create workspaces and track progress together
+                Create workspaces and collaborate
               </h2>
               <p className="mt-4 text-muted-foreground">
-                After you agree to work together, create a workspace with clear
-                milestones. Students submit work for approval; companies review
-                and approve. All communication stays in one place.
+                After you agree to work together, create a workspace. Students
+                submit solutions; companies review and unlock code. All
+                communication stays in one place.
               </p>
               <Button className="mt-6" variant="outline" asChild>
                 <Link href="/signup" className="gap-2">
@@ -121,10 +121,10 @@ export default function LandingPage() {
             <div className="flex flex-1 justify-center">
               <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
                 <Briefcase className="h-12 w-12 text-primary" />
-                <h3 className="mt-4 font-semibold">Milestone-based collaboration</h3>
+                <h3 className="mt-4 font-semibold">Project workspaces</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Define milestones, track submissions, and approve when complete.
-                  Payment is handled off-platform between you and the developer.
+                  One workspace per project. Chat, submit code, and review
+                  together. Payment is handled off-platform between you and the developer.
                 </p>
               </div>
             </div>

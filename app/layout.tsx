@@ -5,7 +5,7 @@ import { AppLayoutClient } from "@/components/layout/AppLayoutClient";
 export const metadata: Metadata = {
   title: "Codeveria — Hire Verified Student Developers",
   description:
-    "Connect with verified student developers. Message, create workspaces, and track milestones. Skill-verified talent.",
+    "Connect with verified student developers. Message, create workspaces, and collaborate. Skill-verified talent.",
 };
 
 export default function RootLayout({

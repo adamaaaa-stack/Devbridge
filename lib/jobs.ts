@@ -48,15 +48,41 @@ export async function createJob(
   return { job: job as JobDb };
 }
 
-export async function listOpenJobs(): Promise<
+export interface ListJobsFilters {
+  skill?: string | null;
+  difficulty?: string | null;
+  estimated_hours_max?: number | null;
+  search?: string | null;
+}
+
+export async function listOpenJobs(filters?: ListJobsFilters): Promise<
   Array<JobDb & { company_name?: string | null }>
 > {
   const supabase = await createServerSupabaseClient();
-  const { data: rows } = await supabase
+  let query = supabase
     .from("jobs")
     .select("id, company_id, title, description, skill_required, skill_level, estimated_hours, difficulty, status, created_at")
     .eq("status", "open")
     .order("created_at", { ascending: false });
+
+  const skill = filters?.skill?.trim();
+  if (skill) {
+    query = query.ilike("skill_required", `%${skill}%`);
+  }
+  const difficulty = filters?.difficulty?.trim();
+  if (difficulty) {
+    query = query.eq("difficulty", difficulty);
+  }
+  const hoursMax = filters?.estimated_hours_max;
+  if (hoursMax != null && hoursMax > 0) {
+    query = query.lte("estimated_hours", hoursMax);
+  }
+  const search = filters?.search?.trim();
+  if (search) {
+    query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`);
+  }
+
+  const { data: rows } = await query;
 
   if (!rows?.length) return [];
 

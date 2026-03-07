@@ -5,6 +5,7 @@
 
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { createServiceRoleClient } from "@/lib/supabase/service";
+import { logWorkspaceActivity } from "@/lib/workspace-activity";
 import type { SubmissionStatus } from "@/lib/types";
 
 const CODE_BUCKET = "code_submissions";
@@ -164,6 +165,12 @@ export async function releaseCode(
   }
 
   const now = new Date().toISOString();
+  const { data: sub } = await service
+    .from("submissions")
+    .select("workspace_id")
+    .eq("id", submissionId)
+    .single();
+
   await service
     .from("escrow_records")
     .update({
@@ -178,6 +185,9 @@ export async function releaseCode(
     .update({ status: "delivered" })
     .eq("id", submissionId);
 
+  if (sub?.workspace_id) {
+    await logWorkspaceActivity(sub.workspace_id, "code_unlocked", "Code access granted");
+  }
   return { released: true };
 }
 

@@ -5,7 +5,10 @@ import {
   getTaskById,
   setDeveloperSkillLevel,
 } from "@/lib/skill-tests";
+import { hashCode, hasDuplicateHash, isSuspiciousSolveTime } from "@/lib/skill-tests/anti-cheat";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createServiceRoleClient } from "@/lib/supabase/service";
+import { notifyTestResult } from "@/lib/notification-events";
 
 export async function POST(req: Request) {
   try {
@@ -18,6 +21,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const task_id = typeof body.task_id === "string" ? body.task_id.trim() : "";
     const code_submission = typeof body.code_submission === "string" ? body.code_submission : "";
+    const time_started = typeof body.time_started === "string" ? body.time_started.trim() || null : null;
 
     if (!task_id || !code_submission) {
       return NextResponse.json(
@@ -26,8 +30,12 @@ export async function POST(req: Request) {
       );
     }
 
-    // Resolve profile id (same as user id in this app)
     const profileId = user.id;
+    const time_submitted = new Date().toISOString();
+    const code_hash = hashCode(code_submission);
+    const duplicateHash = await hasDuplicateHash(task_id, code_hash);
+    const suspiciousTime = isSuspiciousSolveTime(time_started, time_submitted);
+    const flagged_for_review = duplicateHash || suspiciousTime;
 
     const allowed = await checkAttemptAllowed(profileId, task_id);
     if (!allowed.allowed) {
@@ -42,13 +50,18 @@ export async function POST(req: Request) {
     const { task, skill_id, level } = taskData;
     const evaluation = await evaluateSubmission(task.prompt, code_submission);
 
-    const { error: insertError } = await supabase.from("test_submissions").insert({
+    const service = createServiceRoleClient();
+    const { error: insertError } = await service.from("test_submissions").insert({
       profile_id: profileId,
       task_id,
       code_submission,
       score: evaluation.score,
       passed: evaluation.passed,
       ai_feedback: evaluation.feedback,
+      time_started: time_started || null,
+      time_submitted,
+      code_hash,
+      flagged_for_review,
     });
 
     if (insertError) {
@@ -66,6 +79,13 @@ export async function POST(req: Request) {
       const newLevel = Math.max(currentLevel, level);
       await setDeveloperSkillLevel(profileId, skill_id, newLevel);
     }
+
+    await notifyTestResult(
+      profileId,
+      task.title,
+      evaluation.passed,
+      "/tests"
+    );
 
     return NextResponse.json({
       score: evaluation.score,

@@ -183,7 +183,7 @@ export async function getDeveloperById(profileId: string) {
 
   if (profileError || !profile) return null;
 
-  const [profileSkillsRes, statsRes, portfolioRes, reviewsRes, verifiedLevelsRes] = await Promise.all([
+  const [profileSkillsRes, statsRes, portfolioRes, reviewsRes, workspaceReviewsRes, verifiedProjectsRes, verifiedLevelsRes] = await Promise.all([
     supabase
       .from("profile_skills")
       .select("skill_id, self_reported_level")
@@ -203,6 +203,16 @@ export async function getDeveloperById(profileId: string) {
       .select("id, rating, review, created_at, reviewer_id")
       .eq("reviewee_id", profileId)
       .order("created_at", { ascending: false }),
+    supabase
+      .from("workspace_reviews")
+      .select("id, rating, review_text, created_at, company_id")
+      .eq("developer_id", profileId)
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("verified_projects")
+      .select("*")
+      .eq("developer_id", profileId)
+      .order("completed_at", { ascending: false }),
     supabase
       .from("developer_skill_levels")
       .select("skill_id, current_level")
@@ -252,6 +262,29 @@ export async function getDeveloperById(profileId: string) {
   const reviewerNames = new Map(
     (reviewerProfiles ?? []).map((p: { id: string; display_name: string | null }) => [p.id, p.display_name])
   );
+  const workspaceReviewsRaw = (workspaceReviewsRes.data ?? []) as Array<{
+    id: string;
+    rating: number;
+    review_text: string | null;
+    created_at: string;
+    company_id: string;
+  }>;
+  const companyIds = Array.from(new Set(workspaceReviewsRaw.map((r) => r.company_id)));
+  const { data: companyProfiles } =
+    companyIds.length > 0
+      ? await supabase.from("profiles").select("id, display_name").in("id", companyIds)
+      : { data: [] };
+  const companyNames = new Map(
+    (companyProfiles ?? []).map((p: { id: string; display_name: string | null }) => [p.id, p.display_name])
+  );
+  const workspaceReviews = workspaceReviewsRaw.map((r) => ({
+    id: r.id,
+    rating: r.rating,
+    review: r.review_text,
+    created_at: r.created_at,
+    reviewer_name: companyNames.get(r.company_id) ?? "Company",
+  }));
+
   const reviews = reviewsRaw.map((r) => ({
     id: r.id,
     rating: r.rating,
@@ -260,10 +293,21 @@ export async function getDeveloperById(profileId: string) {
     reviewer_name: reviewerNames.get(r.reviewer_id) ?? "Anonymous",
   }));
 
+  const allReviews = [...workspaceReviews, ...reviews].sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
   const averageRating =
-    reviews.length > 0
-      ? reviews.reduce((a, r) => a + r.rating, 0) / reviews.length
+    allReviews.length > 0
+      ? allReviews.reduce((a, r) => a + r.rating, 0) / allReviews.length
       : Number(stats?.average_rating ?? 0);
+
+  const verifiedProjects = (verifiedProjectsRes.data ?? []) as Array<{
+    id: string;
+    title: string;
+    description: string | null;
+    tech_stack: string[];
+    completed_at: string;
+  }>;
 
   const verifiedLevelRows = (verifiedLevelsRes.data ?? []) as Array<{ skill_id: string; current_level: number }>;
   const verifiedSkillIds = verifiedLevelRows.map((r) => r.skill_id);
@@ -286,8 +330,9 @@ export async function getDeveloperById(profileId: string) {
     skills,
     stats,
     portfolioItems,
-    reviews,
+    reviews: allReviews,
     averageRating,
     verifiedLevels,
+    verifiedProjects,
   };
 }

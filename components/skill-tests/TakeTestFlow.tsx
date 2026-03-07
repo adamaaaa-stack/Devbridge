@@ -30,6 +30,7 @@ export function TakeTestFlow({
     skill_name?: string;
     level?: number;
   } | null>(null);
+  const [timeStarted, setTimeStarted] = useState<string | null>(null);
   const [skillName, setSkillName] = useState("");
   const [level, setLevel] = useState(0);
 
@@ -49,6 +50,7 @@ export function TakeTestFlow({
         throw new Error(data.error || "Failed to generate task");
       }
       setTask(data.task);
+      setTimeStarted(new Date().toISOString());
       setSkillName(data.task.skill_name ?? skills.find((s) => s.id === skillId)?.name ?? slug);
       setLevel(nextLevel);
       setStep("test");
@@ -64,7 +66,11 @@ export function TakeTestFlow({
     const res = await fetch("/api/tests/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ task_id: taskId, code_submission: code }),
+      body: JSON.stringify({
+        task_id: taskId,
+        code_submission: code,
+        time_started: timeStarted ?? undefined,
+      }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -86,7 +92,7 @@ export function TakeTestFlow({
         skillName={skillName}
         level={level}
         onSubmit={handleSubmit}
-        onBack={() => setStep("pick")}
+        onBack={() => { setStep("pick"); setTimeStarted(null); }}
       />
     );
   }

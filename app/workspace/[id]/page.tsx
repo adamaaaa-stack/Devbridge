@@ -2,13 +2,17 @@ import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import {
   getWorkspaceById,
-  getMilestonesForWorkspace,
   getWorkspaceMessages,
   markWorkspaceMessagesRead,
+  getWorkspaceReview,
 } from "@/lib/workspaces";
+import { getWorkspaceActivity } from "@/lib/workspace-activity";
 import { getSubmissionsForWorkspace } from "@/lib/escrow/submissions";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
-import { MilestoneList } from "@/components/workspace/MilestoneList";
+import { WorkspaceConfirmationCard } from "@/components/workspace/WorkspaceConfirmationCard";
+import { WorkspaceTimeline } from "@/components/workspace/WorkspaceTimeline";
+import { CompleteWorkspaceCard } from "@/components/workspace/CompleteWorkspaceCard";
+import { LeaveReviewCard } from "@/components/workspace/LeaveReviewCard";
 import { WorkspaceChatWindow } from "@/components/workspace/WorkspaceChatWindow";
 import { WorkspaceMessageComposer } from "@/components/workspace/WorkspaceMessageComposer";
 import { SubmitSolutionCard } from "@/components/escrow/SubmitSolutionCard";
@@ -28,10 +32,11 @@ export default async function WorkspacePage({
     redirect("/messages");
   }
 
-  const [milestones, messages, submissions] = await Promise.all([
-    getMilestonesForWorkspace(workspaceId, user.id),
+  const [messages, submissions, activity, existingReview] = await Promise.all([
     getWorkspaceMessages(workspaceId, user.id),
     getSubmissionsForWorkspace(workspaceId, user.id),
+    getWorkspaceActivity(workspaceId, user.id),
+    getWorkspaceReview(workspaceId),
   ]);
 
   await markWorkspaceMessagesRead(workspaceId, user.id);
@@ -70,12 +75,14 @@ export default async function WorkspacePage({
             </CardContent>
           </Card>
 
-          <MilestoneList
+          <WorkspaceConfirmationCard
             workspace={workspace}
-            milestones={milestones}
             currentUserId={user.id}
           />
 
+          {workspace.status === "active" && isCompany && (
+            <CompleteWorkspaceCard workspaceId={workspaceId} />
+          )}
           {workspace.status === "active" && (
             isCompany ? (
               <SubmissionReviewCard
@@ -89,6 +96,15 @@ export default async function WorkspacePage({
               />
             )
           )}
+
+          {workspace.status === "completed" && isCompany && (
+            <LeaveReviewCard
+              workspaceId={workspaceId}
+              existingReview={existingReview}
+            />
+          )}
+
+          <WorkspaceTimeline events={activity} />
         </div>
 
         <Card className="flex flex-col overflow-hidden">

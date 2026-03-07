@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { applyToJob } from "@/lib/jobs";
+import { applyToJob, getJobById } from "@/lib/jobs";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { notifyJobApplication } from "@/lib/notification-events";
 
 /**
  * POST /api/jobs/apply
@@ -28,6 +29,10 @@ export async function POST(req: Request) {
 
     if ("error" in result) {
       return NextResponse.json({ error: result.error }, { status: 400 });
+    }
+    const job = await getJobById(job_id);
+    if (job) {
+      await notifyJobApplication(job_id, job.company_id, job.title);
     }
     return NextResponse.json({ application: result.application });
   } catch (e) {

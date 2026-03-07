@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { reviewSubmission } from "@/lib/escrow/submissions";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { logWorkspaceActivity } from "@/lib/workspace-activity";
+import { notifySubmissionReviewed } from "@/lib/notification-events";
 
 /**
  * POST /api/submissions/review
@@ -30,6 +32,15 @@ export async function POST(req: Request) {
 
     if ("error" in result) {
       return NextResponse.json({ error: result.error }, { status: 400 });
+    }
+    const { data: sub } = await supabase
+      .from("submissions")
+      .select("workspace_id, developer_id")
+      .eq("id", submission_id)
+      .single();
+    if (sub) {
+      await logWorkspaceActivity(sub.workspace_id, "submission_reviewed", approved ? "Submission approved" : "Changes requested");
+      await notifySubmissionReviewed(sub.developer_id, sub.workspace_id, approved);
     }
     return NextResponse.json({ submission: result.submission });
   } catch (e) {

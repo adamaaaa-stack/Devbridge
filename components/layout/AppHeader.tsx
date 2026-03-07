@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SignOutButton } from "@/components/auth/SignOutButton";
+import { NotificationBell } from "@/components/NotificationBell";
 
 export function AppHeader() {
   return (
@@ -11,6 +12,7 @@ export function AppHeader() {
         <span className="text-sm text-muted-foreground">Codeveria</span>
       </div>
       <div className="flex items-center gap-2">
+        <NotificationBell />
         <Button variant="ghost" size="sm" asChild>
           <Link href="/profile">Profile</Link>
         </Button>

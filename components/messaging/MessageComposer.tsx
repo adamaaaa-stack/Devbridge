@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 
@@ -14,6 +14,7 @@ export function MessageComposer({
   conversationId,
   currentUserId,
 }: MessageComposerProps) {
+  const router = useRouter();
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,21 +27,22 @@ export function MessageComposer({
 
     setError(null);
     setLoading(true);
-    const supabase = createBrowserSupabaseClient();
-    const { error: insertError } = await supabase.from("messages").insert({
-      conversation_id: conversationId,
-      sender_id: currentUserId,
-      body: trimmed,
+    const res = await fetch("/api/messages/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ conversation_id: conversationId, body: trimmed }),
     });
+    const data = await res.json().catch(() => ({}));
     setLoading(false);
-    if (insertError) {
-      setError(insertError.message);
+    if (!res.ok) {
+      setError(data.error ?? "Failed to send");
       return;
     }
     setBody("");
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
+    router.refresh();
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
