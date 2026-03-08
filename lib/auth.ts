@@ -57,7 +57,7 @@ export async function requireUser() {
 export async function requireCompletedOnboarding() {
   const user = await requireUser();
   const profile = await getCurrentProfile();
-  if (!profile) redirect("/login");
+  if (!profile) redirect("/onboarding");
   if (!profile.onboarding_complete) redirect("/onboarding");
   return { user, profile };
 }

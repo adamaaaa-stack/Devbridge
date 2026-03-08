@@ -16,6 +16,7 @@ import type { Skill } from "@/lib/types";
 import type { PortfolioItemDb } from "@/lib/types";
 import Link from "next/link";
 import { Plus, Pencil, Trash2, ExternalLink, Github, Code2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ProfileEditorProps {
   profile: DbProfile;
@@ -375,6 +376,86 @@ export function ProfileEditor({
           </CardContent>
         </Card>
       )}
+
+      {/* Delete profile */}
+      <Card className="border-destructive/30">
+        <CardHeader>
+          <CardTitle className="text-destructive">Delete profile</CardTitle>
+          <CardDescription>
+            Permanently delete your profile and all associated data (workspaces, messages, etc.). Your login stays active; you can create a new profile from onboarding.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <DeleteProfileButton />
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function DeleteProfileButton() {
+  const router = useRouter();
+  const [confirming, setConfirming] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleDelete() {
+    setError(null);
+    setDeleting(true);
+    try {
+      const res = await fetch("/api/profile/delete", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Failed to delete profile");
+        setDeleting(false);
+        return;
+      }
+      router.push("/onboarding");
+      router.refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Something went wrong");
+      setDeleting(false);
+    }
+  }
+
+  if (!confirming) {
+    return (
+      <div className="space-y-2">
+        <Button
+          type="button"
+          variant="destructive"
+          onClick={() => setConfirming(true)}
+        >
+          Delete my profile
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <p className="text-sm text-muted-foreground">
+        Are you sure? Your profile and all associated data will be removed. You will stay signed in and can create a new profile.
+      </p>
+      {error && <p className="text-sm text-destructive">{error}</p>}
+      <div className="flex gap-2">
+        <Button
+          type="button"
+          variant="destructive"
+          onClick={handleDelete}
+          disabled={deleting}
+        >
+          {deleting ? "Deleting…" : "Yes, delete my profile"}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => { setConfirming(false); setError(null); }}
+          disabled={deleting}
+        >
+          Cancel
+        </Button>
+      </div>
     </div>
   );
 }

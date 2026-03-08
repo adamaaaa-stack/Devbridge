@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { OnboardingStudentForm } from "@/components/auth/OnboardingStudentForm";
 import { OnboardingCompanyForm } from "@/components/auth/OnboardingCompanyForm";
+import { CreateProfileStep } from "@/components/auth/CreateProfileStep";
 
 export default async function OnboardingPage() {
   const user = await requireUser();
@@ -14,6 +15,19 @@ export default async function OnboardingPage() {
     .select("id, role, onboarding_complete")
     .eq("id", user.id)
     .single();
+
+  if (!profile) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-muted/30 px-4 py-8">
+        <div className="mb-4 text-center">
+          <Link href="/" className="text-xl font-bold text-primary">
+            Codeveria
+          </Link>
+        </div>
+        <CreateProfileStep />
+      </div>
+    );
+  }
 
   if (error || !profile) {
     redirect("/login");
