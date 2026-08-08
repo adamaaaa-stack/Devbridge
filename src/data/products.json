@@ -12,6 +12,24 @@
    "Aircraft / Glider Kits",
    "Balsa Kits",
    "Dumas"
+  ],
+  "skill": "beginner",
+  "buildType": "Balsa kit",
+  "tags": [
+   "aircraft",
+   "balsa",
+   "build",
+   "dumas",
+   "glider",
+   "kit",
+   "kits",
+   "pilatus",
+   "porter",
+   "slope",
+   "soaring",
+   "thermal",
+   "traditional",
+   "wood"
   ]
  },
  {
@@ -27,6 +45,23 @@
    "Aircraft / Glider Kits",
    "Balsa Kits",
    "SIG"
+  ],
+  "skill": "beginner",
+  "buildType": "Balsa kit",
+  "tags": [
+   "aircraft",
+   "balsa",
+   "build",
+   "glider",
+   "kit",
+   "kits",
+   "sig",
+   "skyray",
+   "slope",
+   "soaring",
+   "thermal",
+   "traditional",
+   "wood"
   ]
  },
  {
@@ -42,7 +77,31 @@
    "Aircraft / Glider Kits",
    "Foamies",
    "Scale"
-  ]
+  ],
+  "skill": "beginner",
+  "buildType": "ARF (almost ready to fly)",
+  "tags": [
+   "aircraft",
+   "arf",
+   "beginner",
+   "crashproof",
+   "durable",
+   "extra",
+   "foam",
+   "foamies",
+   "glider",
+   "hacker",
+   "hackerf",
+   "kit",
+   "kits",
+   "red",
+   "scale",
+   "slope",
+   "soaring",
+   "thermal"
+  ],
+  "wasPrice": 2787.5,
+  "discountPct": 20
  },
  {
   "sku": "SHH1328G",
@@ -57,7 +116,32 @@
    "Aircraft / Glider Kits",
    "Foamies",
    "Zagi"
-  ]
+  ],
+  "skill": "beginner",
+  "buildType": "ARF (almost ready to fly)",
+  "tags": [
+   "aircraft",
+   "arf",
+   "beginner",
+   "blue",
+   "crashproof",
+   "durable",
+   "foam",
+   "foamies",
+   "glider",
+   "hacker",
+   "hackerf",
+   "hook",
+   "hotwing",
+   "kit",
+   "kits",
+   "slope",
+   "soaring",
+   "thermal",
+   "zagi"
+  ],
+  "wasPrice": 816.47,
+  "discountPct": 15
  },
  {
   "sku": "SHS146US",
@@ -72,7 +156,26 @@
    "Aircraft / Glider Kits",
    "Scale",
    "Electric Only"
-  ]
+  ],
+  "skill": "intermediate",
+  "buildType": "Kit",
+  "tags": [
+   "aircraft",
+   "cessna",
+   "electric",
+   "glider",
+   "kit",
+   "kits",
+   "only",
+   "por",
+   "scale",
+   "seagull",
+   "slope",
+   "soaring",
+   "thermal"
+  ],
+  "wasPrice": 10971.43,
+  "discountPct": 30
  },
  {
   "sku": "SHS240M",
@@ -87,6 +190,25 @@
    "Aircraft / Glider Kits",
    "Scale",
    "Electric Only"
+  ],
+  "skill": "intermediate",
+  "buildType": "Kit",
+  "tags": [
+   "aircraft",
+   "electric",
+   "fin",
+   "glider",
+   "kit",
+   "kits",
+   "matt",
+   "mentor",
+   "only",
+   "scale",
+   "seagull",
+   "slope",
+   "soaring",
+   "thermal",
+   "turbo"
   ]
  },
  {
@@ -102,7 +224,29 @@
    "Aircraft / Glider Kits",
    "Scale Aerobatics",
    "05 - 20cc (Gas & Elec)"
-  ]
+  ],
+  "skill": "advanced",
+  "buildType": "Kit",
+  "tags": [
+   "aerobatics",
+   "aircraft",
+   "blue",
+   "elec",
+   "extreme",
+   "flight",
+   "gas",
+   "glider",
+   "kit",
+   "kits",
+   "scale",
+   "slope",
+   "sls",
+   "soaring",
+   "thermal",
+   "velox"
+  ],
+  "wasPrice": 6917.65,
+  "discountPct": 15
  },
  {
   "sku": "SHSE376B",
@@ -117,6 +261,27 @@
    "Aircraft / Glider Kits",
    "Scale Aerobatics",
    "70 - 200cc (Gas & Elec) LSA"
+  ],
+  "skill": "advanced",
+  "buildType": "Kit",
+  "tags": [
+   "aerobatics",
+   "aircraft",
+   "blue",
+   "elec",
+   "extreme",
+   "flight",
+   "gas",
+   "glider",
+   "kit",
+   "kits",
+   "lsa",
+   "ora",
+   "scale",
+   "slick",
+   "slope",
+   "soaring",
+   "thermal"
   ]
  },
  {
@@ -132,6 +297,17 @@
    "Batteries",
    "LiFe",
    "2 cell"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "batt",
+   "batteries",
+   "battery",
+   "cell",
+   "life",
+   "lipo",
+   "maniax",
+   "power"
   ]
  },
  {
@@ -147,6 +323,17 @@
    "Batteries",
    "LiFe",
    "3 cell"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "batt",
+   "batteries",
+   "battery",
+   "cell",
+   "life",
+   "lipo",
+   "maniax",
+   "power"
   ]
  },
  {
@@ -162,6 +349,17 @@
    "Batteries",
    "LiPo",
    "3 cell"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "batt",
+   "batteries",
+   "battery",
+   "cell",
+   "deans",
+   "lipo",
+   "power",
+   "yuntong"
   ]
  },
  {
@@ -177,7 +375,19 @@
    "Batteries",
    "LiPo",
    "6 cell"
-  ]
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "batt",
+   "batteries",
+   "battery",
+   "cell",
+   "lipo",
+   "maniax",
+   "power"
+  ],
+  "wasPrice": 2825.0,
+  "discountPct": 20
  },
  {
   "sku": "BTE16X50",
@@ -192,6 +402,24 @@
    "Building Supplies",
    "Balsa/Ply/Spruce",
    "Balsa Trailing Edge"
+  ],
+  "skill": "beginner",
+  "buildType": "Balsa kit",
+  "tags": [
+   "aileron",
+   "balsa",
+   "build",
+   "building",
+   "carbon",
+   "edge",
+   "kit",
+   "ply",
+   "sls",
+   "spruce",
+   "supplies",
+   "traditional",
+   "trailing",
+   "wood"
   ]
  },
  {
@@ -207,6 +435,17 @@
    "Building Supplies",
    "Covering Film",
    "Oratrim"
+  ],
+  "skill": "beginner",
+  "tags": [
+   "building",
+   "covering",
+   "cub",
+   "film",
+   "oracover",
+   "oratrim",
+   "supplies",
+   "yellow"
   ]
  },
  {
@@ -222,6 +461,21 @@
    "Building Supplies",
    "Glues & Activators",
    "Cyano`s/Super Glue"
+  ],
+  "skill": "beginner",
+  "tags": [
+   "activators",
+   "adhesive",
+   "build",
+   "building",
+   "cyano",
+   "gap",
+   "glue",
+   "glues",
+   "green",
+   "super",
+   "supplies",
+   "zap"
   ]
  },
  {
@@ -237,6 +491,26 @@
    "Building Supplies",
    "Glues & Activators",
    "Foam Safe"
+  ],
+  "skill": "beginner",
+  "buildType": "Foam",
+  "tags": [
+   "accelerator",
+   "activators",
+   "adhesive",
+   "beginner",
+   "bsi",
+   "build",
+   "building",
+   "crashproof",
+   "durable",
+   "foam",
+   "glue",
+   "glues",
+   "local",
+   "safe",
+   "spray",
+   "supplies"
   ]
  },
  {
@@ -252,6 +526,22 @@
    "Cars & Boats",
    "Boat Props",
    "2 Blade"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "accessories",
+   "ace",
+   "blade",
+   "boat",
+   "boats",
+   "cars",
+   "haoye",
+   "marine",
+   "prop",
+   "propeller",
+   "props",
+   "sail",
+   "water"
   ]
  },
  {
@@ -267,7 +557,25 @@
    "Cars & Boats",
    "Boat Props",
    "2 Blade"
-  ]
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "blade",
+   "boat",
+   "boats",
+   "cars",
+   "joy",
+   "joysway",
+   "marine",
+   "nylon",
+   "prop",
+   "propeller",
+   "props",
+   "sail",
+   "water"
+  ],
+  "wasPrice": 120.0,
+  "discountPct": 20
  },
  {
   "sku": "ADM2368",
@@ -282,6 +590,20 @@
    "Cars & Boats",
    "Boat Spares",
    "Running Hardware"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "boat",
+   "boats",
+   "cars",
+   "dumas",
+   "for",
+   "hardware",
+   "marine",
+   "running",
+   "sail",
+   "spares",
+   "water"
   ]
  },
  {
@@ -297,6 +619,23 @@
    "Cars & Boats",
    "Boat Spares",
    "Sails"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "ballast",
+   "boat",
+   "boats",
+   "cars",
+   "joy",
+   "joysway",
+   "marine",
+   "orion",
+   "sail",
+   "sails",
+   "spares",
+   "std",
+   "water",
+   "yacht"
   ]
  },
  {
@@ -312,7 +651,21 @@
    "Electric Motors",
    "Brushless Aeroplane",
    "20mm - 39mm"
-  ]
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "aeroplane",
+   "brushless",
+   "electric",
+   "less",
+   "models",
+   "motor",
+   "motors",
+   "power",
+   "runner"
+  ],
+  "wasPrice": 998.82,
+  "discountPct": 15
  },
  {
   "sku": "CS4035-450",
@@ -327,7 +680,24 @@
    "Electric Motors",
    "Brushless Aeroplane",
    "40mm - 59mm"
-  ]
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "aeroplane",
+   "brushless",
+   "electric",
+   "maytech",
+   "motor",
+   "motors",
+   "neu",
+   "power",
+   "scorp",
+   "scorpion",
+   "sls",
+   "wing"
+  ],
+  "wasPrice": 5786.67,
+  "discountPct": 25
  },
  {
   "sku": "CSPS4020",
@@ -342,6 +712,25 @@
    "Electric Motors",
    "Electric Motor Parts",
    "Motor Shafts"
+  ],
+  "skill": "intermediate",
+  "buildType": "Kit",
+  "tags": [
+   "brushless",
+   "electric",
+   "kit",
+   "maytech",
+   "motor",
+   "motors",
+   "neu",
+   "parts",
+   "power",
+   "scorp",
+   "scorpion",
+   "series",
+   "shaft",
+   "shafts",
+   "sls"
   ]
  },
  {
@@ -357,6 +746,24 @@
    "Electric Motors",
    "Electric Motor Parts",
    "Prop Adapters"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "adapters",
+   "adaptor",
+   "blade",
+   "brushless",
+   "electric",
+   "hex",
+   "models",
+   "motor",
+   "motors",
+   "parts",
+   "power",
+   "prop",
+   "propeller",
+   "sls",
+   "split"
   ]
  },
  {
@@ -372,6 +779,19 @@
    "Helicopters",
    "Align Parts",
    "Trex 500"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "align",
+   "alum",
+   "bolt",
+   "heli",
+   "helicopter",
+   "helicopters",
+   "hexagonal",
+   "parts",
+   "rotor",
+   "trex"
   ]
  },
  {
@@ -387,6 +807,20 @@
    "Helicopters",
    "Align Parts",
    "Trex 800"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "align",
+   "cbn",
+   "frame",
+   "heli",
+   "helicopter",
+   "helicopters",
+   "main",
+   "parts",
+   "pro",
+   "rotor",
+   "trex"
   ]
  },
  {
@@ -402,6 +836,19 @@
    "Helicopters",
    "Canopies & Fuselages",
    "Canopies"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "align",
+   "canopies",
+   "canopy",
+   "fuselages",
+   "heli",
+   "helicopter",
+   "helicopters",
+   "painted",
+   "por",
+   "rotor"
   ]
  },
  {
@@ -417,7 +864,22 @@
    "Helicopters",
    "Canopies & Fuselages",
    "Fuselage"
-  ]
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "align",
+   "canopies",
+   "fuselage",
+   "fuselages",
+   "fuselge",
+   "heli",
+   "helicopter",
+   "helicopters",
+   "rotor",
+   "scale"
+  ],
+  "wasPrice": 873.75,
+  "discountPct": 20
  },
  {
   "sku": "GCT80TS",
@@ -432,6 +894,19 @@
    "Helicopters",
    "Heli Blades",
    "Tail"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "blades",
+   "gct",
+   "heli",
+   "helicopter",
+   "helicopters",
+   "old",
+   "rotor",
+   "silver",
+   "sls",
+   "tail"
   ]
  },
  {
@@ -447,6 +922,26 @@
    "Jet Kits, Turbine & EDF",
    "Ducted Fans",
    "Non Metal Fans"
+  ],
+  "skill": "advanced",
+  "buildType": "Kit",
+  "tags": [
+   "accessories",
+   "ace",
+   "ducted",
+   "edf",
+   "fan",
+   "fans",
+   "fast",
+   "haoye",
+   "jet",
+   "kits",
+   "metal",
+   "mtr",
+   "non",
+   "sls",
+   "speed",
+   "turbine"
   ]
  },
  {
@@ -462,6 +957,26 @@
    "Jet Kits, Turbine & EDF",
    "Ducted Fans",
    "Non Metal Fans"
+  ],
+  "skill": "advanced",
+  "buildType": "Kit",
+  "tags": [
+   "accessories",
+   "ace",
+   "ducted",
+   "edf",
+   "fan",
+   "fans",
+   "fast",
+   "haoye",
+   "jet",
+   "kits",
+   "metal",
+   "non",
+   "screw",
+   "shaft",
+   "speed",
+   "turbine"
   ]
  },
  {
@@ -477,6 +992,25 @@
    "Jet Kits, Turbine & EDF",
    "Turbine Motor Accessories",
    "Smoke Pump"
+  ],
+  "skill": "advanced",
+  "buildType": "Kit",
+  "tags": [
+   "accessories",
+   "brushless",
+   "edf",
+   "fast",
+   "jet",
+   "kits",
+   "less",
+   "motor",
+   "power",
+   "pump",
+   "smoke",
+   "speed",
+   "swiwin",
+   "turbine",
+   "turbines"
   ]
  },
  {
@@ -492,6 +1026,27 @@
    "Jet Kits, Turbine & EDF",
    "Turbine Motor Spares",
    "Fuel filter/Pump/Solenoid"
+  ],
+  "skill": "advanced",
+  "buildType": "Kit",
+  "tags": [
+   "brushless",
+   "edf",
+   "fast",
+   "filter",
+   "fuel",
+   "jet",
+   "kits",
+   "less",
+   "motor",
+   "power",
+   "pump",
+   "solenoid",
+   "spares",
+   "speed",
+   "swiwin",
+   "turbine",
+   "turbines"
   ]
  },
  {
@@ -507,7 +1062,30 @@
    "Jet Kits, Turbine & EDF",
    "Turbine Motor Spares",
    "Fuel filter/Pump/Solenoid"
-  ]
+  ],
+  "skill": "advanced",
+  "buildType": "Kit",
+  "tags": [
+   "brushless",
+   "edf",
+   "fast",
+   "filter",
+   "fuel",
+   "jet",
+   "kits",
+   "less",
+   "motor",
+   "power",
+   "pump",
+   "solenoid",
+   "spares",
+   "speed",
+   "swiwin",
+   "turbine",
+   "turbines"
+  ],
+  "wasPrice": 4128.57,
+  "discountPct": 30
  },
  {
   "sku": "SHDJIS800E",
@@ -522,6 +1100,24 @@
    "Multicopters/Drones",
    "DJI",
    "Kits"
+  ],
+  "skill": "advanced",
+  "buildType": "Kit",
+  "tags": [
+   "aerial",
+   "camera",
+   "combo",
+   "dji",
+   "drone",
+   "drones",
+   "evo",
+   "fpv",
+   "hexacopter",
+   "kits",
+   "local",
+   "multicopters",
+   "quad",
+   "sls"
   ]
  },
  {
@@ -537,6 +1133,24 @@
    "Multicopters/Drones",
    "DJI",
    "Spares"
+  ],
+  "skill": "advanced",
+  "tags": [
+   "aerial",
+   "camera",
+   "dji",
+   "drone",
+   "drones",
+   "fpv",
+   "gear",
+   "landing",
+   "local",
+   "multicopters",
+   "pad",
+   "quad",
+   "sls",
+   "spares",
+   "vision"
   ]
  },
  {
@@ -552,6 +1166,21 @@
    "Multicopters/Drones",
    "Electronics",
    "Camera"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "aerial",
+   "align",
+   "antenna",
+   "camera",
+   "circular",
+   "drone",
+   "drones",
+   "electronics",
+   "fpv",
+   "multicopters",
+   "polarized",
+   "quad"
   ]
  },
  {
@@ -567,7 +1196,28 @@
    "Multicopters/Drones",
    "Electronics",
    "Miscellaneous"
-  ]
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "aerial",
+   "camera",
+   "drone",
+   "drones",
+   "electronics",
+   "fpv",
+   "ghz",
+   "less",
+   "mayt",
+   "maytech",
+   "miscellaneous",
+   "multicopters",
+   "neu",
+   "quad",
+   "scorpion",
+   "video"
+  ],
+  "wasPrice": 2684.88,
+  "discountPct": 35
  },
  {
   "sku": "PAPC5.1X5FPV3",
@@ -582,6 +1232,18 @@
    "Propellers",
    "Nylon",
    "3 & 4 Blade"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "apc",
+   "blade",
+   "electric",
+   "fpv",
+   "nylon",
+   "prop",
+   "propeller",
+   "propellers",
+   "props"
   ]
  },
  {
@@ -597,7 +1259,21 @@
    "Propellers",
    "Nylon",
    "Pylon/Racing"
-  ]
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "apc",
+   "blade",
+   "nylon",
+   "prop",
+   "propeller",
+   "propellers",
+   "props",
+   "pylon",
+   "racing"
+  ],
+  "wasPrice": 52.22,
+  "discountPct": 10
  },
  {
   "sku": "PJ17X103B",
@@ -612,6 +1288,15 @@
    "Propellers",
    "Wooden",
    "3 Blade"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "blade",
+   "prop",
+   "propeller",
+   "propellers",
+   "wooden",
+   "xoar"
   ]
  },
  {
@@ -627,6 +1312,17 @@
    "Propellers",
    "Wooden",
    "3D"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "blade",
+   "pitch",
+   "prop",
+   "propeller",
+   "propellers",
+   "sls",
+   "wooden",
+   "xoar"
   ]
  },
  {
@@ -641,6 +1337,19 @@
   "categoryPath": [
    "Radio & Equipment",
    "Radio Sets"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "control",
+   "equipment",
+   "local",
+   "monster",
+   "por",
+   "radio",
+   "receiver",
+   "sets",
+   "transmitter",
+   "truck"
   ]
  },
  {
@@ -655,6 +1364,19 @@
   "categoryPath": [
    "Radio & Equipment",
    "Receivers & Modules"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "control",
+   "cooltech",
+   "equipment",
+   "fasst",
+   "futaba",
+   "modules",
+   "radio",
+   "receiver",
+   "receivers",
+   "transmitter"
   ]
  },
  {
@@ -669,6 +1391,20 @@
   "categoryPath": [
    "Radio & Equipment",
    "Receivers & Modules"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "car",
+   "control",
+   "disc",
+   "equipment",
+   "hitec",
+   "mhz",
+   "modules",
+   "radio",
+   "receiver",
+   "receivers",
+   "transmitter"
   ]
  },
  {
@@ -683,6 +1419,21 @@
   "categoryPath": [
    "Radio & Equipment",
    "Telemetry/Sensors"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "adjuster",
+   "control",
+   "equipment",
+   "linkage",
+   "pilot",
+   "prc",
+   "radio",
+   "receiver",
+   "sensors",
+   "servo",
+   "telemetry",
+   "transmitter"
   ]
  },
  {
@@ -697,6 +1448,27 @@
   "categoryPath": [
    "Radio & Equipment",
    "Trays, Straps & Stands"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "control",
+   "edf",
+   "equipment",
+   "fast",
+   "for",
+   "holder",
+   "jet",
+   "jeti",
+   "por",
+   "radio",
+   "receiver",
+   "speed",
+   "stands",
+   "straps",
+   "transmitter",
+   "tray",
+   "trays",
+   "turbine"
   ]
  },
  {
@@ -712,6 +1484,18 @@
    "Servo & Accessories",
    ".Servo Standard by Kg",
    "10 - 19.9kg"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "accessories",
+   "control",
+   "hite",
+   "hitec",
+   "linkage",
+   "monst",
+   "servo",
+   "standard",
+   "torq"
   ]
  },
  {
@@ -727,7 +1511,24 @@
    "Servo & Accessories",
    "Extension & Y-Leads",
    "Servo Wire & Connectors"
-  ]
+  ],
+  "skill": "advanced",
+  "tags": [
+   "accessories",
+   "connector",
+   "connectors",
+   "control",
+   "extension",
+   "female",
+   "leads",
+   "linkage",
+   "pbx",
+   "powerbox",
+   "servo",
+   "wire"
+  ],
+  "wasPrice": 273.75,
+  "discountPct": 20
  },
  {
   "sku": "RH07-03913",
@@ -742,6 +1543,19 @@
    "Servo & Accessories",
    "Horns/Arms",
    "23T (JR)"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "accessories",
+   "ace",
+   "alloy",
+   "arms",
+   "control",
+   "hao",
+   "horns",
+   "linkage",
+   "servo",
+   "sls"
   ]
  },
  {
@@ -757,7 +1571,22 @@
    "Servo & Accessories",
    "Horns/Arms",
    "23T (JR)"
-  ]
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "accessories",
+   "ace",
+   "alloy",
+   "arms",
+   "control",
+   "hao",
+   "horns",
+   "linkage",
+   "servo",
+   "sls"
+  ],
+  "wasPrice": 148.75,
+  "discountPct": 20
  },
  {
   "sku": "TR4029",
@@ -772,6 +1601,24 @@
    "Tools & Bearings",
    "Aircraft Tools",
    "C.G. & Incidence"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "aircraft",
+   "bar",
+   "bearings",
+   "build",
+   "down",
+   "incidence",
+   "locked",
+   "long",
+   "meter",
+   "part",
+   "robart",
+   "spare",
+   "tool",
+   "tools",
+   "workshop"
   ]
  },
  {
@@ -787,6 +1634,25 @@
    "Tools & Bearings",
    "Building Tools",
    "Dremel & Engraver Bits"
+  ],
+  "skill": "beginner",
+  "tags": [
+   "bearings",
+   "bits",
+   "build",
+   "building",
+   "craft",
+   "dremel",
+   "engraver",
+   "grinding",
+   "mini",
+   "sls",
+   "stone",
+   "tool",
+   "tools",
+   "tork",
+   "wheel",
+   "workshop"
   ]
  },
  {
@@ -802,6 +1668,26 @@
    "Tools & Bearings",
    "Building Tools",
    "Files & Sanding Tools"
+  ],
+  "skill": "beginner",
+  "buildType": "Foam",
+  "tags": [
+   "bearings",
+   "beginner",
+   "blck",
+   "build",
+   "building",
+   "crashproof",
+   "durable",
+   "files",
+   "foam",
+   "lany",
+   "lanyu",
+   "mesh",
+   "sanding",
+   "tool",
+   "tools",
+   "workshop"
   ]
  },
  {
@@ -817,6 +1703,21 @@
    "Tools & Bearings",
    "Drilling",
    "Drill Bits"
+  ],
+  "skill": "intermediate",
+  "tags": [
+   "bearings",
+   "bit",
+   "bits",
+   "build",
+   "craft",
+   "drill",
+   "drilling",
+   "hss",
+   "tool",
+   "tools",
+   "tork",
+   "workshop"
   ]
  }
 ]

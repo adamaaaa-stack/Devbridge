@@ -96,6 +96,15 @@ body {
     text-wrap: balance;
   }
 
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   .safe-pb {
     padding-bottom: env(safe-area-inset-bottom, 0);
   }

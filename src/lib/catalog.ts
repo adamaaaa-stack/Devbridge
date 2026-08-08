@@ -10,6 +10,11 @@ export type Product = {
   inStock: boolean;
   image: string;
   categoryPath: string[];
+  skill: 'beginner' | 'intermediate' | 'advanced';
+  tags: string[];
+  buildType?: string;
+  wasPrice?: number;
+  discountPct?: number;
 };
 
 export type CategoryNode = {
@@ -131,6 +136,17 @@ export function getRelated(product: Product, count = 4) {
         p.categoryPath[0] === product.categoryPath[0],
     )
     .slice(0, count);
+}
+
+export function getSpecials() {
+  return products
+    .filter((p) => p.wasPrice)
+    .sort((a, b) => (b.discountPct || 0) - (a.discountPct || 0));
+}
+
+/** A few representative product images to render inside a category block. */
+export function categoryPreview(node: CategoryNode, count = 3) {
+  return getProductsByCategory(node.path).slice(0, count);
 }
 
 export function searchProducts(query: string) {
