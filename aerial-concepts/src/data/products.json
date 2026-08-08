@@ -1,0 +1,822 @@
+[
+ {
+  "sku": "SHDM1806",
+  "slug": "kit-dumas-pilatus-porter-40-1016mm",
+  "name": "Kit dumas pilatus porter 40 1016mm",
+  "price": 1540.0,
+  "brand": "Dumas",
+  "unit": "kit",
+  "inStock": true,
+  "image": "/products/shdm1806.webp",
+  "categoryPath": [
+   "Aircraft / Glider Kits",
+   "Balsa Kits",
+   "Dumas"
+  ]
+ },
+ {
+  "sku": "SHSCL23",
+  "slug": "kit-sig-skyray",
+  "name": "Kit sig skyray",
+  "price": 590.0,
+  "brand": "SIG",
+  "unit": "kit",
+  "inStock": false,
+  "image": "/products/shscl23.webp",
+  "categoryPath": [
+   "Aircraft / Glider Kits",
+   "Balsa Kits",
+   "SIG"
+  ]
+ },
+ {
+  "sku": "SHH1325A",
+  "slug": "kit-hackerf-extra-330sc-1000-arf-red",
+  "name": "Kit hackerf extra 330sc 1000 arf (red)",
+  "price": 2230.0,
+  "brand": "Foam Hacker Kits",
+  "unit": "kit",
+  "inStock": true,
+  "image": "/products/shh1325a.webp",
+  "categoryPath": [
+   "Aircraft / Glider Kits",
+   "Foamies",
+   "Scale"
+  ]
+ },
+ {
+  "sku": "SHH1328G",
+  "slug": "kit-hackerf-hotwing-750-arf-hook-blue",
+  "name": "Kit hackerf hotwing 750 arf hook blue",
+  "price": 694.0,
+  "brand": "Foam Hacker Kits",
+  "unit": "kit",
+  "inStock": true,
+  "image": "/products/shh1328g.webp",
+  "categoryPath": [
+   "Aircraft / Glider Kits",
+   "Foamies",
+   "Zagi"
+  ]
+ },
+ {
+  "sku": "SHS146US",
+  "slug": "kit-seagull-cessna-337-76-8-46-por",
+  "name": "Kit seagull cessna 337 76.8 (.46) por",
+  "price": 7680.0,
+  "brand": "Seagull & VQ",
+  "unit": "kit",
+  "inStock": true,
+  "image": "/products/shs146us.webp",
+  "categoryPath": [
+   "Aircraft / Glider Kits",
+   "Scale",
+   "Electric Only"
+  ]
+ },
+ {
+  "sku": "SHS240M",
+  "slug": "kit-seagull-t-34c-turbo-mentor-matt-fin",
+  "name": "Kit seagull t-34c turbo mentor (matt fin",
+  "price": 5250.0,
+  "brand": "Seagull & VQ",
+  "unit": "kit",
+  "inStock": false,
+  "image": "/products/shs240m.webp",
+  "categoryPath": [
+   "Aircraft / Glider Kits",
+   "Scale",
+   "Electric Only"
+  ]
+ },
+ {
+  "sku": "SHSE384B",
+  "slug": "kit-ex-f-velox-52-blue-384-sls",
+  "name": "Kit ex/f velox 52 blue (384) sls",
+  "price": 5880.0,
+  "brand": "Extreme Flight",
+  "unit": "kit",
+  "inStock": true,
+  "image": "/products/shse384b.webp",
+  "categoryPath": [
+   "Aircraft / Glider Kits",
+   "Scale Aerobatics",
+   "05 - 20cc (Gas & Elec)"
+  ]
+ },
+ {
+  "sku": "SHSE376B",
+  "slug": "kit-ex-f-slick-580-91-blue-ora-wh-a376",
+  "name": "Kit ex/f slick 580 91 blue/ora/wh a376",
+  "price": 21600.0,
+  "brand": "Extreme Flight",
+  "unit": "kit",
+  "inStock": false,
+  "image": "/products/shse376b.webp",
+  "categoryPath": [
+   "Aircraft / Glider Kits",
+   "Scale Aerobatics",
+   "70 - 200cc (Gas & Elec) LSA"
+  ]
+ },
+ {
+  "sku": "X6.6V1700-25",
+  "slug": "batt-maniax-6-6v1700-25c-life",
+  "name": "Batt maniax 6.6v1700 25c (life)",
+  "price": 358.0,
+  "brand": "ManiaX Batteries",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/x6_6v1700-25.webp",
+  "categoryPath": [
+   "Batteries",
+   "LiFe",
+   "2 cell"
+  ]
+ },
+ {
+  "sku": "X9.9V3000-25",
+  "slug": "batt-maniax-9-9v3000-25c-life",
+  "name": "Batt maniax 9.9v3000 25c (life)",
+  "price": 839.0,
+  "brand": "ManiaX Batteries",
+  "unit": "each",
+  "inStock": false,
+  "image": "/products/x9_9v3000-25.webp",
+  "categoryPath": [
+   "Batteries",
+   "LiFe",
+   "3 cell"
+  ]
+ },
+ {
+  "sku": "YT11.1V5000-45",
+  "slug": "batt-yt-3s-5000-45c-deans",
+  "name": "Batt yt 3s 5000 45c (deans)",
+  "price": 879.0,
+  "brand": "Yuntong Batteries",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/yt11_1v5000-45.webp",
+  "categoryPath": [
+   "Batteries",
+   "LiPo",
+   "3 cell"
+  ]
+ },
+ {
+  "sku": "X22.2V6200-45",
+  "slug": "batt-maniax-6s-6200-45c-xt-90",
+  "name": "Batt maniax 6s 6200 45c (xt-90)",
+  "price": 2260.0,
+  "brand": "ManiaX Batteries",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/x22_2v6200-45.webp",
+  "categoryPath": [
+   "Batteries",
+   "LiPo",
+   "6 cell"
+  ]
+ },
+ {
+  "sku": "BTE16X50",
+  "slug": "balsa-trailing-edge-aileron-16x50-sls",
+  "name": "Balsa trailing edge/aileron 16x50 sls",
+  "price": 38.0,
+  "brand": "Balsa, Ply & Carbon",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/bte16x50.webp",
+  "categoryPath": [
+   "Building Supplies",
+   "Balsa/Ply/Spruce",
+   "Balsa Trailing Edge"
+  ]
+ },
+ {
+  "sku": "27-030T",
+  "slug": "oratrim-9-5cm-2m-cub-yellow",
+  "name": "Oratrim 9.5cm/2m cub yellow",
+  "price": 179.0,
+  "brand": "Oracover",
+  "unit": "2m",
+  "inStock": true,
+  "image": "/products/27-030t.webp",
+  "categoryPath": [
+   "Building Supplies",
+   "Covering Film",
+   "Oratrim"
+  ]
+ },
+ {
+  "sku": "CZPT02",
+  "slug": "glue-zap-a-gap-green-28-4ml",
+  "name": "Glue zap a gap green (28.4ml)",
+  "price": 148.0,
+  "brand": "Zap Glues",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/czpt02.webp",
+  "categoryPath": [
+   "Building Supplies",
+   "Glues & Activators",
+   "Cyano`s/Super Glue"
+  ]
+ },
+ {
+  "sku": "CBSI151",
+  "slug": "foam-safe-accelerator-spray-bsi-2oz",
+  "name": "Foam safe accelerator spray bsi 2oz",
+  "price": 154.0,
+  "brand": "Local",
+  "unit": "each",
+  "inStock": false,
+  "image": "/products/cbsi151.webp",
+  "categoryPath": [
+   "Building Supplies",
+   "Glues & Activators",
+   "Foam Safe"
+  ]
+ },
+ {
+  "sku": "PH38-308",
+  "slug": "prop-haoye-40x47-2blade-boat-108",
+  "name": "Prop haoye 40x47 (2blade) boat (108)",
+  "price": 22.0,
+  "brand": "ACE Accessories",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/ph38-308.webp",
+  "categoryPath": [
+   "Cars & Boats",
+   "Boat Props",
+   "2 Blade"
+  ]
+ },
+ {
+  "sku": "AJP930511",
+  "slug": "prop-joy-p1-4xd35-2-blade-nylon",
+  "name": "Prop joy p1.4xd35 (2-blade) nylon",
+  "price": 96.0,
+  "brand": "Joysway",
+  "unit": "set",
+  "inStock": true,
+  "image": "/products/ajp930511.webp",
+  "categoryPath": [
+   "Cars & Boats",
+   "Boat Props",
+   "2 Blade"
+  ]
+ },
+ {
+  "sku": "ADM2368",
+  "slug": "running-hardware-for-1252",
+  "name": "Running hardware for 1252",
+  "price": 834.0,
+  "brand": "Dumas",
+  "unit": "set",
+  "inStock": false,
+  "image": "/products/adm2368.webp",
+  "categoryPath": [
+   "Cars & Boats",
+   "Boat Spares",
+   "Running Hardware"
+  ]
+ },
+ {
+  "sku": "AJP880305",
+  "slug": "ballast-joy-std-360g-orion-yacht",
+  "name": "Ballast joy std 360g (orion yacht)",
+  "price": 439.0,
+  "brand": "Joysway",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/ajp880305.webp",
+  "categoryPath": [
+   "Cars & Boats",
+   "Boat Spares",
+   "Sails"
+  ]
+ },
+ {
+  "sku": "CGSM354805",
+  "slug": "motor-gs-b-less-830kv-o-runner",
+  "name": "Motor gs b/less 830kv o/runner",
+  "price": 849.0,
+  "brand": "GS Models",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/cgsm354805.webp",
+  "categoryPath": [
+   "Electric Motors",
+   "Brushless Aeroplane",
+   "20mm - 39mm"
+  ]
+ },
+ {
+  "sku": "CS4035-450",
+  "slug": "motor-scorp-4035-450-kv-f-wing-sls",
+  "name": "Motor scorp 4035-450 kv f/wing sls",
+  "price": 4340.0,
+  "brand": "Maytech / Scorpion / Neu",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/cs4035-450.webp",
+  "categoryPath": [
+   "Electric Motors",
+   "Brushless Aeroplane",
+   "40mm - 59mm"
+  ]
+ },
+ {
+  "sku": "CSPS4020",
+  "slug": "shaft-kit-scorp-4020-series-6x80mm-sls",
+  "name": "Shaft kit scorp 4020 series (6x80mm) sls",
+  "price": 136.0,
+  "brand": "Maytech / Scorpion / Neu",
+  "unit": "kit",
+  "inStock": false,
+  "image": "/products/csps4020.webp",
+  "categoryPath": [
+   "Electric Motors",
+   "Electric Motor Parts",
+   "Motor Shafts"
+  ]
+ },
+ {
+  "sku": "AGS0173",
+  "slug": "prop-adaptor-gs-2-3x5-split-hex-sls",
+  "name": "Prop adaptor gs 2.3x5 (split) hex sls",
+  "price": 18.0,
+  "brand": "GS Models",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/ags0173.webp",
+  "categoryPath": [
+   "Electric Motors",
+   "Electric Motor Parts",
+   "Prop Adapters"
+  ]
+ },
+ {
+  "sku": "ALH50B012XXT",
+  "slug": "align-alum-hexagonal-bolt-l-500",
+  "name": "Align alum hexagonal bolt l (500)",
+  "price": 168.0,
+  "brand": "Align",
+  "unit": "pkt",
+  "inStock": true,
+  "image": "/products/alh50b012xxt.webp",
+  "categoryPath": [
+   "Helicopters",
+   "Align Parts",
+   "Trex 500"
+  ]
+ },
+ {
+  "sku": "ALH80B038T",
+  "slug": "align-main-frame-cbn-r-2mm-800e-pro",
+  "name": "Align main frame cbn (r) 2mm (800e pro)",
+  "price": 1793.6,
+  "brand": "Align",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/alh80b038t.webp",
+  "categoryPath": [
+   "Helicopters",
+   "Align Parts",
+   "Trex 800"
+  ]
+ },
+ {
+  "sku": "ALHC7654T",
+  "slug": "align-canopy-700e-painted-por",
+  "name": "Align canopy (700e) painted por",
+  "price": 1280.0,
+  "brand": "Align",
+  "unit": "each",
+  "inStock": false,
+  "image": "/products/alhc7654t.webp",
+  "categoryPath": [
+   "Helicopters",
+   "Canopies & Fuselages",
+   "Canopies"
+  ]
+ },
+ {
+  "sku": "ALHF2501T",
+  "slug": "align-f3c-and-500e-scale-fuselge-3-4-250",
+  "name": "Align f3c&500e scale fuselge(3/4)(250)",
+  "price": 699.0,
+  "brand": "Align",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/alhf2501t.webp",
+  "categoryPath": [
+   "Helicopters",
+   "Canopies & Fuselages",
+   "Fuselage"
+  ]
+ },
+ {
+  "sku": "GCT80TS",
+  "slug": "blades-gct-tail-80mm-silver-sls",
+  "name": "Blades gct tail 80mm silver sls",
+  "price": 178.0,
+  "brand": "Old Helicopter",
+  "unit": "pair",
+  "inStock": true,
+  "image": "/products/gct80ts.webp",
+  "categoryPath": [
+   "Helicopters",
+   "Heli Blades",
+   "Tail"
+  ]
+ },
+ {
+  "sku": "PH03-099",
+  "slug": "ducted-fan-haoye-180-mtr-sls",
+  "name": "Ducted fan haoye (180 mtr) sls",
+  "price": 92.0,
+  "brand": "ACE Accessories",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/ph03-099.webp",
+  "categoryPath": [
+   "Jet Kits, Turbine & EDF",
+   "Ducted Fans",
+   "Non Metal Fans"
+  ]
+ },
+ {
+  "sku": "PH03-102-3.17",
+  "slug": "shaft-screw-haoye-3-17x5mm-f-d-fan",
+  "name": "Shaft screw haoye (3.17x5mm)f/d/fan",
+  "price": 32.0,
+  "brand": "ACE Accessories",
+  "unit": "set",
+  "inStock": false,
+  "image": "/products/ph03-102-3_17.webp",
+  "categoryPath": [
+   "Jet Kits, Turbine & EDF",
+   "Ducted Fans",
+   "Non Metal Fans"
+  ]
+ },
+ {
+  "sku": "SWSP",
+  "slug": "smoke-pump-sw-b-less",
+  "name": "Smoke pump sw b/less",
+  "price": 1350.0,
+  "brand": "Swiwin Turbines",
+  "unit": "each",
+  "inStock": false,
+  "image": "/products/swsp.webp",
+  "categoryPath": [
+   "Jet Kits, Turbine & EDF",
+   "Turbine Motor Accessories",
+   "Smoke Pump"
+  ]
+ },
+ {
+  "sku": "SWFP17-30",
+  "slug": "fuel-pump-sw-b-less-17-30kg",
+  "name": "Fuel pump sw b/less 17-30kg",
+  "price": 3390.0,
+  "brand": "Swiwin Turbines",
+  "unit": "each",
+  "inStock": false,
+  "image": "/products/swfp17-30.webp",
+  "categoryPath": [
+   "Jet Kits, Turbine & EDF",
+   "Turbine Motor Spares",
+   "Fuel filter/Pump/Solenoid"
+  ]
+ },
+ {
+  "sku": "SWFP6-14",
+  "slug": "fuel-pump-sw-b-less-6-14kg",
+  "name": "Fuel pump sw b/less 6-14kg",
+  "price": 2890.0,
+  "brand": "Swiwin Turbines",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/swfp6-14.webp",
+  "categoryPath": [
+   "Jet Kits, Turbine & EDF",
+   "Turbine Motor Spares",
+   "Fuel filter/Pump/Solenoid"
+  ]
+ },
+ {
+  "sku": "SHDJIS800E",
+  "slug": "hexacopter-dji-combo-s800-evo-sls",
+  "name": "Hexacopter dji (combo) s800 evo sls",
+  "price": 30162.3,
+  "brand": "Local",
+  "unit": "kit",
+  "inStock": false,
+  "image": "/products/shdjis800e.webp",
+  "categoryPath": [
+   "Multicopters/Drones",
+   "DJI",
+   "Kits"
+  ]
+ },
+ {
+  "sku": "RDJIP2P26",
+  "slug": "landing-gear-pad-ph-2-vision-pt26-sls",
+  "name": "Landing gear pad ph 2 vision (pt26) sls",
+  "price": 14.12,
+  "brand": "Local",
+  "unit": "set",
+  "inStock": true,
+  "image": "/products/rdjip2p26.webp",
+  "categoryPath": [
+   "Multicopters/Drones",
+   "DJI",
+   "Spares"
+  ]
+ },
+ {
+  "sku": "ALHEDFVT02T",
+  "slug": "align-5-8g-circular-polarized-antenna",
+  "name": "Align 5.8g circular polarized antenna",
+  "price": 148.0,
+  "brand": "Align",
+  "unit": "pair",
+  "inStock": false,
+  "image": "/products/alhedfvt02t.webp",
+  "categoryPath": [
+   "Multicopters/Drones",
+   "Electronics",
+   "Camera"
+  ]
+ },
+ {
+  "sku": "AMTPTRX600G",
+  "slug": "video-tx-mayt-w-less-5-8ghz-600mw",
+  "name": "Video tx mayt w/less 5.8ghz 600mw",
+  "price": 1745.17,
+  "brand": "Maytech / Scorpion / Neu",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/amtptrx600g.webp",
+  "categoryPath": [
+   "Multicopters/Drones",
+   "Electronics",
+   "Miscellaneous"
+  ]
+ },
+ {
+  "sku": "PAPC5.1X5FPV3",
+  "slug": "props-apc-5-1x5-electric-fpv-4-3blade",
+  "name": "Props apc 5.1x5 electric fpv (4) 3blade",
+  "price": 114.0,
+  "brand": "APC Propellers",
+  "unit": "pkt",
+  "inStock": true,
+  "image": "/products/papc5_1x5fpv3.webp",
+  "categoryPath": [
+   "Propellers",
+   "Nylon",
+   "3 & 4 Blade"
+  ]
+ },
+ {
+  "sku": "PAPC6.5X5.5",
+  "slug": "props-apc-6-5x5-5",
+  "name": "Props apc 6.5x5.5",
+  "price": 47.0,
+  "brand": "APC Propellers",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/papc6_5x5_5.webp",
+  "categoryPath": [
+   "Propellers",
+   "Nylon",
+   "Pylon/Racing"
+  ]
+ },
+ {
+  "sku": "PJ17X103B",
+  "slug": "prop-xoar-17x10-3-blade",
+  "name": "Prop xoar 17x10 (3-blade)",
+  "price": 1418.0,
+  "brand": "Xoar Propellers",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/pj17x103b.webp",
+  "categoryPath": [
+   "Propellers",
+   "Wooden",
+   "3 Blade"
+  ]
+ },
+ {
+  "sku": "PJ32X12C",
+  "slug": "prop-xoar-32x12-c-pitch-sls",
+  "name": "Prop xoar 32x12 (c pitch) sls",
+  "price": 475.0,
+  "brand": "Xoar Propellers",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/pj32x12c.webp",
+  "categoryPath": [
+   "Propellers",
+   "Wooden",
+   "3D"
+  ]
+ },
+ {
+  "sku": "RRS9115",
+  "slug": "radio-rs-9115-monster-truck-2-4g-por",
+  "name": "Radio rs 9115 (monster truck) 2.4g por",
+  "price": 465.0,
+  "brand": "Local",
+  "unit": "each",
+  "inStock": false,
+  "image": "/products/rrs9115.webp",
+  "categoryPath": [
+   "Radio & Equipment",
+   "Radio Sets"
+  ]
+ },
+ {
+  "sku": "RFR8FA",
+  "slug": "receiver-futaba-8ch-r8fa-2-4g-fasst",
+  "name": "Receiver futaba 8ch (r8fa 2.4g) fasst",
+  "price": 799.0,
+  "brand": "Cooltech",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/rfr8fa.webp",
+  "categoryPath": [
+   "Radio & Equipment",
+   "Receivers & Modules"
+  ]
+ },
+ {
+  "sku": "RHR2CH",
+  "slug": "receiver-hitec-2ch-27-and-40mhz-car-disc",
+  "name": "Receiver hitec 2ch (27&40mhz) car disc",
+  "price": 219.0,
+  "brand": "Hitec",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/rhr2ch.webp",
+  "categoryPath": [
+   "Radio & Equipment",
+   "Receivers & Modules"
+  ]
+ },
+ {
+  "sku": "APTSA",
+  "slug": "servo-adjuster-prc",
+  "name": "Servo adjuster prc",
+  "price": 358.0,
+  "brand": "Pilot RC",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/aptsa.webp",
+  "categoryPath": [
+   "Radio & Equipment",
+   "Telemetry/Sensors"
+  ]
+ },
+ {
+  "sku": "RJMS-DC-HFT",
+  "slug": "holder-jeti-for-tray-dc-por",
+  "name": "Holder jeti for tray dc por",
+  "price": 398.0,
+  "brand": "Jeti",
+  "unit": "each",
+  "inStock": false,
+  "image": "/products/rjms-dc-hft.webp",
+  "categoryPath": [
+   "Radio & Equipment",
+   "Trays, Straps & Stands"
+  ]
+ },
+ {
+  "sku": "RHS5585MH",
+  "slug": "servo-hite-6v14kg-8-4v17kg-hv-monst-torq",
+  "name": "Servo hite 6v14kg/8.4v17kg hv monst torq",
+  "price": 998.0,
+  "brand": "Hitec",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/rhs5585mh.webp",
+  "categoryPath": [
+   "Servo & Accessories",
+   ".Servo Standard by Kg",
+   "10 - 19.9kg"
+  ]
+ },
+ {
+  "sku": "CPB1060",
+  "slug": "jr-connector-pbx-female-10",
+  "name": "Jr connector pbx female (10)",
+  "price": 219.0,
+  "brand": "Powerbox",
+  "unit": "pkt",
+  "inStock": true,
+  "image": "/products/cpb1060.webp",
+  "categoryPath": [
+   "Servo & Accessories",
+   "Extension & Y-Leads",
+   "Servo Wire & Connectors"
+  ]
+ },
+ {
+  "sku": "RH07-03913",
+  "slug": "servo-arms-hao-3-23t-alloy-jr-4-40-sls",
+  "name": "Servo arms hao 3 23t alloy jr 4-40 sls",
+  "price": 155.0,
+  "brand": "ACE Accessories",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/rh07-03913.webp",
+  "categoryPath": [
+   "Servo & Accessories",
+   "Horns/Arms",
+   "23T (JR)"
+  ]
+ },
+ {
+  "sku": "RH07-03816",
+  "slug": "servo-arms-hao-4-23t-alloy-jr-m3-sls",
+  "name": "Servo arms hao 4 23t alloy jr m3 sls",
+  "price": 119.0,
+  "brand": "ACE Accessories",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/rh07-03816.webp",
+  "categoryPath": [
+   "Servo & Accessories",
+   "Horns/Arms",
+   "23T (JR)"
+  ]
+ },
+ {
+  "sku": "TR4029",
+  "slug": "bar-robart-long-meter-36-spare-part",
+  "name": "Bar robart long meter 36 (spare part)",
+  "price": 348.0,
+  "brand": "Robart/Down & Locked",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/tr4029.webp",
+  "categoryPath": [
+   "Tools & Bearings",
+   "Aircraft Tools",
+   "C.G. & Incidence"
+  ]
+ },
+ {
+  "sku": "TC08402",
+  "slug": "grinding-stone-tc-mini-wheel-10-mm-sls",
+  "name": "Grinding stone tc mini wheel 10 mm sls",
+  "price": 15.0,
+  "brand": "Tork Craft Tools",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/tc08402.webp",
+  "categoryPath": [
+   "Tools & Bearings",
+   "Building Tools",
+   "Dremel & Engraver Bits"
+  ]
+ },
+ {
+  "sku": "CL6208",
+  "slug": "sanding-blck-lany-foam-120-mesh-400-500",
+  "name": "Sanding blck lany foam 120# mesh 400-500",
+  "price": 25.0,
+  "brand": "Lanyu",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/cl6208.webp",
+  "categoryPath": [
+   "Tools & Bearings",
+   "Building Tools",
+   "Files & Sanding Tools"
+  ]
+ },
+ {
+  "sku": "ALP6260048",
+  "slug": "drill-bit-tc-4-8mm-hss",
+  "name": "Drill bit tc 4.8mm hss",
+  "price": 24.0,
+  "brand": "Tork Craft Tools",
+  "unit": "each",
+  "inStock": true,
+  "image": "/products/alp6260048.webp",
+  "categoryPath": [
+   "Tools & Bearings",
+   "Drilling",
+   "Drill Bits"
+  ]
+ }
+]
