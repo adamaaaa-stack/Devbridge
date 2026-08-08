@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ProductGrid } from '@/components/ProductGrid';
-import { CategoryTile } from '@/components/CategoryTile';
+import { CategoryBlock } from '@/components/CategoryBlock';
+import { Reveal } from '@/components/Reveal';
 import {
   categorySlug,
   findCategory,
@@ -77,9 +78,11 @@ export default async function CategoryPage({ params }: Props) {
         {cat.children.length > 0 && (
           <div className="mt-10">
             <h2 className="mb-4 font-display text-xl font-semibold">Browse sub-categories</h2>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
               {cat.children.map((c, i) => (
-                <CategoryTile key={c.slug} category={c} index={i} />
+                <Reveal key={c.slug} delay={(i % 3) * 70}>
+                  <CategoryBlock category={c} index={i} tone="light" />
+                </Reveal>
               ))}
             </div>
           </div>

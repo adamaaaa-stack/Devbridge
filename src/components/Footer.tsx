@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Logo } from './Logo';
-import { getTopCategories, STORE } from '@/lib/catalog';
+import { categorySlug, getTopCategories, STORE } from '@/lib/catalog';
 
 export function Footer() {
   const categories = getTopCategories().slice(0, 8);
@@ -26,7 +26,7 @@ export function Footer() {
             </li>
             {categories.map((c) => (
               <li key={c.slug}>
-                <Link href={`/category/${c.slug}`} className="hover:text-white">
+                <Link href={`/category/${categorySlug(c.path)}`} className="hover:text-white">
                   {c.name}
                 </Link>
               </li>
